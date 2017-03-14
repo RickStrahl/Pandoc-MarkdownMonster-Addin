@@ -1,0 +1,12 @@
+﻿{
+  {
+    "id": "PanDocMarkdownParserAddin",
+    "name": "PanDocMarkdownParserAddin",
+    "summary": "Descript PanDocMarkdownParserAddin in a short paragraph",
+    "description": "Describe PanDocMarkdownParserAddin with a long description",    
+    "version": "0.01",
+    "minVersion": "1.0",
+    "author": "© your comany",
+    "updated": "2017-1-10T12:00:00Z"
+  }
+}
