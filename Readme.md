@@ -24,10 +24,11 @@ The parser is registered in Markdown Monster and when available can be selected 
 
 
 ### Pandoc Configurations Form and Runner
-This addin supports configuring a number of different command line scenarios for running Pandoc and producing various kinds of output from the current document. This will pick up the currently active markdown document and use it to run pandoc to produce various kinds of output.
+This addin supports configuring a number of different command line scenarios for running Pandoc and producing various kinds of output from the current document. This will pick up the currently active markdown document and uses it to run pandoc to produce various kinds of output.
 
-More 
+![](ConfigurationsWindows.png)
 
+You can set up separate configurations with differing output and command line options for running Pandoc.
 
 ### Pandoc Installation
 This addin does not ship with Pandoc - it's your responsibility to install Pandoc. We recommend you install **Pandoc** and **MikTex** via [Chocolatey](https://chocolatey.org/).
