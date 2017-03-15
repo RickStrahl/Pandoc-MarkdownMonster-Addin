@@ -67,17 +67,17 @@ namespace PanDocMarkdownParserAddin
         /// If true requires that the output file is 
         /// requested before executing the configuration.
         /// </summary>
-        public bool IsFileOutput
+        public bool PromptForFilename
         {
-            get { return _isFileOutput; }
+            get { return _promptForFilename; }
             set
             {
-                if (value == _isFileOutput) return;
-                _isFileOutput = value;
+                if (value == _promptForFilename) return;
+                _promptForFilename = value;
                 OnPropertyChanged();
             }
         }
-        private bool _isFileOutput;
+        private bool _promptForFilename;
 
         public Tuple<bool,string> Execute(string markdown, string outputFile, string basePath)
         {

@@ -40,11 +40,13 @@ namespace PanDocMarkdownParserAddin
 
             if (Model.AddinConfiguration.Configurations.Count < 1)
             {
-                Model.Configurations.Add(new PandocConfigurationItem()
+                Model.ActiveConfiguration = new PandocConfigurationItem()
                 {
-                     Name = "Render Markdown to file output",
-                     CommandLineArguments = "-f markdown -s \"{fileIn}\" -o \"{fileOut}\""
-                });
+                    Name = "Output Conversion (Github Flavored)",
+                    CommandLineArguments = "-f markdown_github -s \"{fileIn}\" -o \"{fileOut}\"",
+                    PromptForFilename = true
+                };
+                Model.Configurations.Add(Model.ActiveConfiguration);
             }
 
             if (Model.AddinConfiguration.Configurations.Count > 0)
@@ -60,10 +62,7 @@ namespace PanDocMarkdownParserAddin
         
 
         private void PandocMarkdownParserWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //string initialValue = null;
-            //if (Model.AddinConfiguration.Configurations.Count > 0)            
-            //    ListCommands.SelectedItem = Model.Configurations.First();                                        
+        {                                     
         }
 
 
@@ -125,7 +124,7 @@ namespace PanDocMarkdownParserAddin
             var docFile = Model.Addin.Model.ActiveDocument.Filename;
             var path = Path.GetDirectoryName(docFile);
 
-            if (item.IsFileOutput)
+            if (item.PromptForFilename)
             {
                 var sd = new SaveFileDialog
                 {
