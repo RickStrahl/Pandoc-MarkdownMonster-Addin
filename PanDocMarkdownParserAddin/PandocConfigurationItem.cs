@@ -61,22 +61,23 @@ namespace PanDocMarkdownParserAddin
         }
         private string _OutputExtension = ".html";
 
-
+        
+        
         /// <summary>
-        /// 
+        /// If true requires that the output file is 
+        /// requested before executing the configuration.
         /// </summary>
-        public bool IsHtml
+        public bool IsFileOutput
         {
-            get { return _isHtml; }
+            get { return _isFileOutput; }
             set
             {
-                if (value == _isHtml) return;
-                _isHtml = value;
-                OnPropertyChanged(nameof(IsHtml));
+                if (value == _isFileOutput) return;
+                _isFileOutput = value;
+                OnPropertyChanged();
             }
         }
-        private bool _isHtml = true;
-
+        private bool _isFileOutput;
 
         public bool Execute(string markdown, string outputFile)
         {

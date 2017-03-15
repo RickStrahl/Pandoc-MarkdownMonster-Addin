@@ -50,7 +50,7 @@ namespace PanDocMarkdownParserAddin
                 OnPropertyChanged(nameof(PandocCommandLine));
             }
         }
-        private string _PandocCommandLine = "-f markdown -s \"{fileIn}\" -o \"{fileOut}\"";
+        private string _PandocCommandLine = "-f markdown_github -s \"{fileIn}\" -o \"{fileOut}\"";
 
 
         public Dictionary<string,PandocConfigurationItem> Configurations

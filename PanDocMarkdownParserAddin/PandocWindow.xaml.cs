@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -9,6 +11,8 @@ using System.Windows.Threading;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using Microsoft.Win32;
+using Westwind.Utilities;
 
 namespace PanDocMarkdownParserAddin
 {
@@ -31,7 +35,6 @@ namespace PanDocMarkdownParserAddin
             };
             
 
-
             Model.Configurations = new ObservableCollection<PandocConfigurationItem>();
             foreach (var item in Model.AddinConfiguration.Configurations.OrderBy(kv=> kv.Value.Name))
                 Model.Configurations.Add(item.Value);
@@ -40,8 +43,8 @@ namespace PanDocMarkdownParserAddin
             {
                 Model.Configurations.Add(new PandocConfigurationItem()
                 {
-                     Name = "PDF Output",
-                     CommandLineArguments = "-markdown -s \"{fileIn}\" -o \"{fileOut}\""
+                     Name = "Render Markdown to file output",
+                     CommandLineArguments = "-f markdown -s \"{fileIn}\" -o \"{fileOut}\""
                 });
             }
 
@@ -52,7 +55,6 @@ namespace PanDocMarkdownParserAddin
             Unloaded += CommanderWindow_Unloaded;
 
             
-
             DataContext = Model;            
         }      
 
@@ -60,33 +62,18 @@ namespace PanDocMarkdownParserAddin
 
         private void PandocMarkdownParserWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //string initialValue = null;
-            //if (Model.AddinConfiguration.Commands.Count > 0)
-            //{
-            //    ListCommands.SelectedItem = Model.AddinConfiguration.Commands[0];
-            //    initialValue = Model.AddinConfiguration.Commands[0].CommandText;
-            //}
-
-            //editor = new MarkdownEditorSimple(WebBrowserCommand, initialValue);            
-            //editor.IsDirtyAction =  () =>
-            //{ 
-            //    string val = editor.GetMarkdown();
-            //    if (val != null && Model.ActiveCommand != null)
-            //        Model.ActiveCommand.CommandText = val;
-
-            //    return true;
-            //};
-
-            //Dispatcher.InvokeAsync(() =>
-            //{
-            //    ListCommands.Focus();
-            //    editor.SetEditorSyntax("csharp");                
-            //},System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            string initialValue = null;
+            if (Model.AddinConfiguration.Configurations.Count > 0)            
+                ListCommands.SelectedItem = Model.AddinConfiguration.Configurations.First();                                        
         }
 
 
         private void CommanderWindow_Unloaded(object sender, RoutedEventArgs e)
         {
+            Model.AddinConfiguration.Configurations.Clear();
+            foreach (var item in Model.Configurations)
+                Model.AddinConfiguration.Configurations.Add(item.Name, item);
+
             Model.AddinConfiguration.Write();
         }
 
@@ -97,7 +84,7 @@ namespace PanDocMarkdownParserAddin
             if (command == null)
                 return;
 
-            //Model.Addin.RunCommand(command);            
+            ToolButtonRunConfiguration_Click(sender, null);
         }
 
         private void ToolButtonNewCommand_Click(object sender, RoutedEventArgs e)
@@ -116,13 +103,46 @@ namespace PanDocMarkdownParserAddin
         }
 
 
-        private void ToolButtonRunCommand_Click(object sender, RoutedEventArgs e)
+        private void ToolButtonRunConfiguration_Click(object sender, RoutedEventArgs e)
         {
-            //var command = ListCommands.SelectedItem as CommanderCommand;
-            //if (command == null)
-            //    return;
+            var item = ListCommands.SelectedItem as PandocConfigurationItem;
+            if (item == null)
+                return;
 
-            //Model.Addin.RunCommand(command);
+            var markdown = Model.Addin.Model.ActiveEditor.GetMarkdown();
+            var docFile = Model.Addin.Model.ActiveDocument.Filename;
+            var path = Path.GetDirectoryName(docFile);
+
+            if (item.IsFileOutput)
+            {
+                var sd = new SaveFileDialog
+                {
+                    Filter = "Output formats formats (*.html;*.pdf;*.docx;*.epub)|*.html;*.pdf;*.docx;*.epub|All Files (*.*)|*.*",
+                    FilterIndex = 1,
+                    FileName = null,
+                    InitialDirectory = path,
+                    CheckFileExists = false,
+                    OverwritePrompt = true,
+                    CheckPathExists = true,
+                    RestoreDirectory = true
+                };
+                var result = sd.ShowDialog();
+                if (result == null || !result.Value)
+                    return;
+
+                try
+                {
+                    if (item.Execute(markdown, sd.FileName))
+                        ShellUtils.GoUrl(sd.FileName);                                            
+                }
+                catch (Exception ex)
+                {
+                    ShowStatus("Error executing command: " + ex.GetBaseException().Message,8000);
+                    SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                }
+                
+            }
+            
         }
 
         

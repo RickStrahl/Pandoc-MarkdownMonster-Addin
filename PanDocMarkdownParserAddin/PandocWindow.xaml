@@ -7,13 +7,12 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"                            
-        Title="Commander C# Script Execution " TitleCharacterCasing="Normal"        
+        Title="Pandoc Operations" TitleCharacterCasing="Normal"        
         FontSize="14"                              
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="1100" Height="900" MinHeight="600"  MinWidth="700"                     
-        
+        Width="800" Height="600" MinHeight="600"  MinWidth="700"                             
         TitlebarHeight="35"
         WindowTransitionsEnabled="False">
     <Grid>
@@ -74,14 +73,14 @@
 
                 </ToolBar>
                 <ToolBar>
-                    <Button Name="ToolButtonRunSnippet" Click="ToolButtonRunCommand_Click">
+                    <Button Name="ToolButtonRunSnippet" Click="ToolButtonRunConfiguration_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Play"  Foreground="Green"
                                             FontSize="15"                                                                                        
                                             FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Margin="5,2,5,0">
                             </fa:FontAwesome>
-                            <TextBlock>Run Command</TextBlock>
+                            <TextBlock>Run Configuration</TextBlock>
                         </StackPanel>
                     </Button>
                 </ToolBar>
@@ -91,8 +90,7 @@
 
         <ListBox Grid.Row="1" Grid.Column="0" Name="ListCommands"
                              Background="#333"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"                             
                              ItemsSource="{Binding Configurations}"  
                              SelectedItem="{Binding ActiveConfiguration}"
                              DisplayMemberPath="Name"
@@ -106,32 +104,23 @@
 
         <Grid Grid.Row="1" Grid.Column="1"  Margin="10,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition  Height="*"/>
                 <RowDefinition Height="22" />
-                <RowDefinition Height="90" />
+                <RowDefinition Height="140" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Margin="0,0,0,4">Command Name</TextBlock>
-            <TextBox  Grid.Row="1" Text="{Binding ActiveConfiguration.Name, UpdateSourceTrigger=PropertyChanged }" />
 
-            <Grid Grid.Row="2" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock Margin="0,0,0,4">Command Name</TextBlock>
+                <TextBox Text="{Binding ActiveConfiguration.Name, UpdateSourceTrigger=PropertyChanged }" />
+
+                <TextBlock Margin="0,10,0,4">Keyboard Shortcut</TextBlock>
+                <TextBox Text="{Binding ActiveConfiguration.CommandLineArguments}"  ToolTip="The command line executed for this command."  />
+
+                <CheckBox IsChecked="{Binding ActiveConfiguration.IsFileOutput}" Margin="0,10,0,0">prompt for file name</CheckBox>
+            </StackPanel>
 
 
-                <StackPanel Grid.Column="0">
-                    <TextBlock  Margin="0,10,0,4">Keyboard Shortcut</TextBlock>
-                    <TextBox Text="{Binding ActiveConfiguration.CommandLineArguments}"  ToolTip="The command line executed for this command."  />
-                </StackPanel>
-            </Grid>
-            
-            <GridSplitter Name="Splitter" Grid.Row="5" HorizontalAlignment="Stretch"  >
+            <GridSplitter Name="Splitter" Grid.Row="1" HorizontalAlignment="Stretch"  >
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
                         <Grid Background="Transparent">
@@ -147,7 +136,7 @@
                     </ControlTemplate>
                 </GridSplitter.Template>
             </GridSplitter>
-            <TextBox Name="TextConsole" Grid.Row="6" FontFamily="Consolas" FontSize="16" Background="#292929" BorderThickness="0"></TextBox>
+            <TextBox Name="TextConsole" Grid.Row="2" FontFamily="Consolas" FontSize="16" Background="#292929" BorderThickness="0"></TextBox>
 
 
            
