@@ -79,7 +79,7 @@ namespace PanDocMarkdownParserAddin
         }
         private bool _isFileOutput;
 
-        public bool Execute(string markdown, string outputFile)
+        public Tuple<bool,string> Execute(string markdown, string outputFile, string basePath)
         {
             File.Delete(outputFile);
 
@@ -100,21 +100,28 @@ namespace PanDocMarkdownParserAddin
                 RedirectStandardError = true,
                 Arguments = cmdLine,
                 UseShellExecute = false,
-                CreateNoWindow = true
+                CreateNoWindow = true,
+                WorkingDirectory = basePath
             };
+
             
             var process = Process.Start(pi);
-            
-            string error = process.StandardError.ReadToEnd();
 
-            if (!string.IsNullOrEmpty(error))
-                throw new InvalidOperationException(error);
+            string console = process.StandardOutput.ReadToEnd()
+                             + "Error: " + process.StandardError.ReadToEnd();
 
             bool res = process.WaitForExit(10000);
+
+            if (process.ExitCode != 0)
+                throw new InvalidOperationException(console);
+
+            console = process.StandardOutput.ReadToEnd();
+
+            
             
             File.Delete(tfileIn);
 
-            return File.Exists(outputFile);
+            return new Tuple<bool, string>( File.Exists(outputFile), console);
         }
 
 

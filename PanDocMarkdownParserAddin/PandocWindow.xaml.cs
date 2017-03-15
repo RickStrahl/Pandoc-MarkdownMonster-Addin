@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,6 +10,7 @@ using System.Windows.Threading;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -32,8 +32,7 @@ namespace PanDocMarkdownParserAddin
             {
                 AddinWindow = this,
                 Addin = addin                
-            };
-            
+            };            
 
             Model.Configurations = new ObservableCollection<PandocConfigurationItem>();
             foreach (var item in Model.AddinConfiguration.Configurations.OrderBy(kv=> kv.Value.Name))
@@ -58,13 +57,13 @@ namespace PanDocMarkdownParserAddin
             DataContext = Model;            
         }      
 
-        private MarkdownEditorSimple editor;
+        
 
         private void PandocMarkdownParserWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            string initialValue = null;
-            if (Model.AddinConfiguration.Configurations.Count > 0)            
-                ListCommands.SelectedItem = Model.AddinConfiguration.Configurations.First();                                        
+            //string initialValue = null;
+            //if (Model.AddinConfiguration.Configurations.Count > 0)            
+            //    ListCommands.SelectedItem = Model.Configurations.First();                                        
         }
 
 
@@ -80,8 +79,8 @@ namespace PanDocMarkdownParserAddin
 
         private void ListCommands_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var command = ListCommands.SelectedItem as PandocConfigurationItem;
-            if (command == null)
+            var config = ListConfigurations.SelectedItem as PandocConfigurationItem;
+            if (config == null)
                 return;
 
             ToolButtonRunConfiguration_Click(sender, null);
@@ -89,24 +88,37 @@ namespace PanDocMarkdownParserAddin
 
         private void ToolButtonNewCommand_Click(object sender, RoutedEventArgs e)
         {
-            //Model.AddinConfiguration.Commands.Insert(0,new CommanderCommand() {Name = "New Command"});
-            //ListCommands.SelectedItem = Model.AddinConfiguration.Commands[0];
+            var item = new PandocConfigurationItem {Name = "New Command"};
+            Model.Configurations.Add(item);
+            Model.ActiveConfiguration = item;            
+            //ListConfigurations.SelectedItems.Add(Model.ActiveConfiguration);
         }
 
 
         private void ToolButtonRemoveCommand_Click(object sender, RoutedEventArgs e)
         {
-            //var command = ListCommands.SelectedItem as CommanderCommand;
-            //if (command == null)
-            //    return;
-            //CommanderAddinConfiguration.Current.Commands.Remove(command);
+            var config = ListConfigurations.SelectedItem as PandocConfigurationItem;
+            if (config == null)
+                return;
+            Model.Configurations.Remove(config);
         }
 
 
         private void ToolButtonRunConfiguration_Click(object sender, RoutedEventArgs e)
         {
-            var item = ListCommands.SelectedItem as PandocConfigurationItem;
+            RunConfiguration();
+
+            
+        }
+
+        private void RunConfiguration()
+        {
+
+            var item = ListConfigurations.SelectedItem as PandocConfigurationItem;
             if (item == null)
+                return;
+            var editor = Model.Addin.Model.ActiveEditor;
+            if (editor == null)
                 return;
 
             var markdown = Model.Addin.Model.ActiveEditor.GetMarkdown();
@@ -117,7 +129,7 @@ namespace PanDocMarkdownParserAddin
             {
                 var sd = new SaveFileDialog
                 {
-                    Filter = "Output formats formats (*.html;*.pdf;*.docx;*.epub)|*.html;*.pdf;*.docx;*.epub|All Files (*.*)|*.*",
+                    Filter = "PDF Files (*.pdf)|*.pdf|Word Docx Files (*.docx)|*.docx|Html Files(*.htm,html)|*.html;*.htm|epub files (*.epub)|*.epub|Open Office ODT Files (*.odt)|*.odt|Open Document XML (*.xml)|*.xml|All Files (*.*)|*.*",
                     FilterIndex = 1,
                     FileName = null,
                     InitialDirectory = path,
@@ -132,42 +144,37 @@ namespace PanDocMarkdownParserAddin
 
                 try
                 {
-                    if (item.Execute(markdown, sd.FileName))
-                        ShellUtils.GoUrl(sd.FileName);                                            
+                    ShowStatus("Document creation in progress...");
+                    TextConsole.Text = null;
+
+                    var res = item.Execute(markdown, sd.FileName, path);
+                    TextConsole.Text = res.Item2;
+
+                    if (res.Item1)
+                        ShellUtils.GoUrl(sd.FileName);
+
+                    ShowStatus("Output was generated.", 6000);
                 }
                 catch (Exception ex)
                 {
-                    ShowStatus("Error executing command: " + ex.GetBaseException().Message,8000);
-                    SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                    TextConsole.Text = ex.Message;
+                    ShowStatus("Error executing Pandoc configuration.", 8000);
+                    SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
                 }
-                
+
             }
-            
         }
 
-        
+
         private void ListCommands_KeyUp(object sender, KeyEventArgs e)
         {
-            
-            //if (e.Key == Key.Return || e.Key == Key.Space)
-            //{
-                
-            //    var command = ListCommands.SelectedItem as CommanderCommand;
-            //    if (command != null)                    
-            //        Model.Addin.RunCommand(command);
-            //}
+            if (e.Key == Key.Return || e.Key == Key.Space)
+                RunConfiguration();
         }
 
         private void ListCommands_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var command = ListCommands.SelectedItem as PandocConfigurationItem;
-
-
-            //if (command != null)
-            //{
-            //    try { 
-            //        editor?.SetMarkdown(command.CommandText);
-            //    }catch { }}
+            //RunConfiguration();
         }
 
 
@@ -182,15 +189,18 @@ namespace PanDocMarkdownParserAddin
 
             if (milliSeconds > 0)
             {
-                var t = new Timer(new TimerCallback((object win) =>
-                {
-                    var window = win as PandocMarkdownParserWindow;
-                    if (window == null)
-                        return;
+                Dispatcher.Delay(milliSeconds,
+                    (win) =>
+                    {
+                        var window = win as PandocMarkdownParserWindow;
+                        if (window == null)
+                            return;
 
-                    window.Dispatcher.Invoke(() => { window.ShowStatus(null, 0); });
-                }), this, milliSeconds, Timeout.Infinite);
+                        window.ShowStatus(null, 0);                        
+                    }, this);
             }
+
+            WindowUtilities.DoEvents();
         }
 
         /// <summary>

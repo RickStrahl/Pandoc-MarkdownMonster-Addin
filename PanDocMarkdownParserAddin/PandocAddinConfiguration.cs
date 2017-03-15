@@ -1,11 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MarkdownMonster;
 using MarkdownMonster.AddIns;
-using Westwind.Utilities;
-using Westwind.Utilities.Configuration;
 
 namespace PanDocMarkdownParserAddin
 {
@@ -13,11 +7,7 @@ namespace PanDocMarkdownParserAddin
     {
         protected override string ConfigurationFilePath { get; set; } = "PandocAddin.json";
 
-        //static PandocAddinConfiguration()
-        //{
-        //    Current = new PandocAddinConfiguration();
-        //    Current.Initialize();        
-        //}
+  
 
 
         /// <summary>

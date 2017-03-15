@@ -60,7 +60,7 @@ namespace PanDocMarkdownParserAddin
             {
                 if (Equals(value, _activeConfiguration)) return;
                 _activeConfiguration = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(ActiveConfiguration));
             }
         }
         private PandocConfigurationItem _activeConfiguration;
