@@ -5,11 +5,10 @@ This addin provides the following for Markdown Monster:
 * A Pandoc Markdown Parser for rendering Markdown to Html in the Editor
 * A UI for creating and running Custom Command Line Configurations against Pandoc
 
-#### Pre-release Installation
-For now the addin is not registered in the Addin registry so you'll have to manually copy the addin to your `%appdata%\Markdown Monster\Addins` folder:
+![Pandoc Markdown Monster Addin Features](PanDocMarkdownParserAddin/screenshot.png)
 
-* Create `%appdata%\Markdown Monster\Addins\PandocMarkdownParser`
-* Unzip the `build\addin.zip` into the folder
+### Installing the Addin
+The addin install from the Markdown Monster Addin Manager. Click **Tools -> Addin Manager** and pick the **Pandoc Markdown Parser** from the list of addins.
 
 
 ### The Markdown Parser
@@ -20,7 +19,7 @@ The parser is registered in Markdown Monster and when available can be selected 
 ![](MarkdownParser.png)
 
 > ### No Document Synching
-> Currently, due to the lack of pragma lines support in Pandoc, the editor and Markdown document cannot be linked automatically as you navigate one or the other document. If document synching is important to you continue to use the **MarkDig** parser, and then switch to Pandoc parsing when you generate your final output.
+> Currently, due to the lack of **pragma lines support** in Pandoc, the editor and Markdown document cannot be linked automatically as you navigate one or the other document. If document syncing is important to you continue to use the **MarkDig** parser, and then switch to Pandoc parsing when you generate your final output.
 
 
 ### Pandoc Configurations Form and Runner
