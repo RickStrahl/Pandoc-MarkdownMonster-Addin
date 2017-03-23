@@ -119,7 +119,6 @@ namespace PanDocMarkdownParserAddin
             if (!OutputExtension.StartsWith("."))
                 OutputExtension = "." + OutputExtension;
             OutputExtension = OutputExtension.ToLower();
-
             
 
             var Configuration = PandocAddinConfiguration.Current;

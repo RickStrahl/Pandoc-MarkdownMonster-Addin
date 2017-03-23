@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -55,7 +56,7 @@ namespace PanDocMarkdownParserAddin
             Model.ActiveConfiguration = new PandocConfigurationItem()
             {
                 Name = "Markdown Document Conversion",
-                CommandLineArguments = "-f markdown_github -s \"{fileIn}\" -o \"{fileOut}\"",
+                CommandLineArguments = "-f markdown -s \"{fileIn}\" -o \"{fileOut}\"",
                 PromptForOutputFilename = true,
                 Description =
                     "Uses Pandoc to converts the current Markdown document from Markdown to the specified output format. This dialog prompts for a filename, the extension of which determines what format the file is created with. Common formats include: .pdf, .docx, .epub, .html, .odt etc."
@@ -149,6 +150,7 @@ namespace PanDocMarkdownParserAddin
             var markdown = Model.Addin.Model.ActiveEditor.GetMarkdown();
             var docFile = Model.Addin.Model.ActiveDocument.Filename;
             var path = Path.GetDirectoryName(docFile);
+            TextConsole.Text = "";
 
             string inputFile;
             if (item.PromptForInputFilename)
@@ -177,12 +179,12 @@ namespace PanDocMarkdownParserAddin
                 {
                     string html = Model.Addin.Model.ActiveDocument.RenderHtml();
                     inputFile = Model.Addin.Model.ActiveDocument.HtmlRenderFilename;
-                    File.WriteAllText(inputFile, html);
+                    File.WriteAllText(inputFile, html,new UTF8Encoding(false) /* pandoc doesn't like the BOM */);
                 }
                 else
                 {
                     inputFile = Path.ChangeExtension(Path.GetTempFileName(), ".md");
-                    File.WriteAllText(inputFile, markdown);                    
+                    File.WriteAllText(inputFile, markdown, new UTF8Encoding(false) /* pandoc doesn't like the BOM */);                    
                 }
             }
 
