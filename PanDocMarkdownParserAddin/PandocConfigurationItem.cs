@@ -46,6 +46,20 @@ namespace PanDocMarkdownParserAddin
         private string _commandLineArguments = "-f markdown -s \"{fileIn}\" -o \"{fileOut}\"";
 
 
+        public string Description
+        {
+            get { return _Description; }
+            set
+            {
+                if (value == _Description) return;
+                _Description = value;
+                OnPropertyChanged(nameof(Description));
+            }
+        }
+        private string _Description;
+
+
+
         /// <summary>
         /// The extension for the output generated (ie. .pdf, .epub, .html etc.)
         /// </summary>
@@ -67,19 +81,38 @@ namespace PanDocMarkdownParserAddin
         /// If true requires that the output file is 
         /// requested before executing the configuration.
         /// </summary>
-        public bool PromptForFilename
+        public bool PromptForOutputFilename
         {
-            get { return _promptForFilename; }
+            get { return _promptForOutputFilename; }
             set
             {
-                if (value == _promptForFilename) return;
-                _promptForFilename = value;
+                if (value == _promptForOutputFilename) return;
+                _promptForOutputFilename = value;
                 OnPropertyChanged();
             }
         }
-        private bool _promptForFilename;
+        private bool _promptForOutputFilename;
 
-        public Tuple<bool,string> Execute(string markdown, string outputFile, string basePath)
+
+        /// <summary>
+        /// If true requires that the input file is 
+        /// requested before executing the configuration.
+        /// </summary>
+        public bool PromptForInputFilename
+        {
+            get { return _promptForInputFilename; }
+            set
+            {
+                if (value == _promptForInputFilename) return;
+                _promptForInputFilename = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _promptForInputFilename;
+
+
+
+        public Tuple<bool,string> Execute(string markdown, string outputFile, string inputFile, string basePath)
         {
             File.Delete(outputFile);
 
@@ -87,12 +120,10 @@ namespace PanDocMarkdownParserAddin
                 OutputExtension = "." + OutputExtension;
             OutputExtension = OutputExtension.ToLower();
 
-            var tfileIn = Path.ChangeExtension(Path.GetTempFileName(), ".md");
             
-            File.WriteAllText(tfileIn, markdown);
 
             var Configuration = PandocAddinConfiguration.Current;
-            var cmdLine =Configuration.PandocCommandLine.Replace("{fileIn}", tfileIn).Replace("{fileOut}", outputFile);
+            var cmdLine = CommandLineArguments.Replace("{fileIn}", inputFile).Replace("{fileOut}", outputFile);
 
             var pi = new ProcessStartInfo("Pandoc.exe")
             {
@@ -119,7 +150,7 @@ namespace PanDocMarkdownParserAddin
 
             
             
-            File.Delete(tfileIn);
+            File.Delete(inputFile);
 
             return new Tuple<bool, string>( File.Exists(outputFile), console);
         }

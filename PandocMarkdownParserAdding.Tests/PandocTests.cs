@@ -26,7 +26,7 @@ namespace PandocMarkdownParserAdding.Tests
             string outputFile = "c:\\temp\\test.pdf";
 
             item.CommandLineArguments = "-markdown -s \"{fileIn}\" -o \"{fileOut}\"";
-            var res = item.Execute("Hello **Cruel** ~~world~~!\n\n* item 1\n* item 2",outputFile,"c:\\temp");
+            var res = item.Execute("Hello **Cruel** ~~world~~!\n\n* item 1\n* item 2",outputFile,null,"c:\\temp");
 
             Assert.IsTrue(res.Item1);
 

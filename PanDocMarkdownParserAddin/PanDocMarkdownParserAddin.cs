@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Windows;
+using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Windows;
 
 namespace PanDocMarkdownParserAddin
 {
@@ -24,8 +27,10 @@ namespace PanDocMarkdownParserAddin
 
                 // if an icon is specified it shows on the toolbar
                 // if not the add-in only shows in the add-ins menu
-                FontawesomeIcon = FontAwesomeIcon.AngleDown
+                FontawesomeIcon = FontAwesomeIcon.Exchange,
             };
+            menuItem.IconImageSource = new ImageSourceConverter()
+                .ConvertFromString("pack://application:,,,/PanDocMarkdownParserAddin;component/icon_22.png") as ImageSource;
 
             // if you don't want to display config or main menu item clear handler
             //menuItem.ExecuteConfiguration = null;
@@ -33,7 +38,7 @@ namespace PanDocMarkdownParserAddin
             // Must add the menu to the collection to display menu and toolbar items            
             this.MenuItems.Add(menuItem);
         }
-
+        
         public override IMarkdownParser GetMarkdownParser()
         {
             return new PandocMarkdownParser();
@@ -50,7 +55,7 @@ namespace PanDocMarkdownParserAddin
 
         public override void OnExecuteConfiguration(object sender)
         {
-            OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "PandocMarkdownParser.json"));
+            OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "PandocAddin.json"));
         }
 
         public override bool OnCanExecute(object sender)

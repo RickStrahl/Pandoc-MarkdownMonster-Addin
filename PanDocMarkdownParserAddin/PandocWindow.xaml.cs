@@ -22,8 +22,8 @@ namespace PanDocMarkdownParserAddin
     public partial class PandocMarkdownParserWindow  : MetroWindow
     {
         public  PandocAddinModel  Model { get; set; }
-        
-        public PandocMarkdownParserWindow( PanDocMarkdownParserAddin addin)
+
+        public PandocMarkdownParserWindow(PanDocMarkdownParserAddin addin)
         {
             InitializeComponent();
             mmApp.SetThemeWindowOverride(this);
@@ -31,35 +31,56 @@ namespace PanDocMarkdownParserAddin
             Model = new PandocAddinModel()
             {
                 AddinWindow = this,
-                Addin = addin                
-            };            
+                Addin = addin
+            };
 
             Model.Configurations = new ObservableCollection<PandocConfigurationItem>();
-            foreach (var item in Model.AddinConfiguration.Configurations.OrderBy(kv=> kv.Value.Name))
+            foreach (var item in Model.AddinConfiguration.Configurations.OrderBy(kv => kv.Value.Name))
                 Model.Configurations.Add(item.Value);
 
-            if (Model.AddinConfiguration.Configurations.Count < 1)
-            {
-                Model.ActiveConfiguration = new PandocConfigurationItem()
-                {
-                    Name = "Output Conversion (Github Flavored)",
-                    CommandLineArguments = "-f markdown_github -s \"{fileIn}\" -o \"{fileOut}\"",
-                    PromptForFilename = true
-                };
-                Model.Configurations.Add(Model.ActiveConfiguration);
-            }
+            if (Model.AddinConfiguration.Configurations.Count < 1)            
+                InitializeConfigurations();
 
             if (Model.AddinConfiguration.Configurations.Count > 0)
                 Model.ActiveConfiguration = Model.AddinConfiguration.Configurations.First().Value;
-            
+
             Loaded += PandocMarkdownParserWindow_Loaded;
             Unloaded += CommanderWindow_Unloaded;
 
-            
-            DataContext = Model;            
-        }      
+            DataContext = Model;
+        }
 
-        
+        private void InitializeConfigurations()
+        {
+            Model.ActiveConfiguration = new PandocConfigurationItem()
+            {
+                Name = "Markdown Document Conversion",
+                CommandLineArguments = "-f markdown_github -s \"{fileIn}\" -o \"{fileOut}\"",
+                PromptForOutputFilename = true,
+                Description =
+                    "Uses Pandoc to converts the current Markdown document from Markdown to the specified output format. This dialog prompts for a filename, the extension of which determines what format the file is created with. Common formats include: .pdf, .docx, .epub, .html, .odt etc."
+            };
+            Model.Configurations.Add(Model.ActiveConfiguration);
+            var config = new PandocConfigurationItem()
+            {
+                Name = "Generic Document Conversion",
+                CommandLineArguments = "-s \"{fileIn}\" -o \"{fileOut}\"",
+                PromptForOutputFilename = true,
+                PromptForInputFilename = true,
+                Description =
+                    "Converts any document type that Pandoc supports for input, to any document type that it supports for output based on extension used.  You are prompted for an input file and an output file."
+            };
+            Model.Configurations.Add(config);
+            config = new PandocConfigurationItem()
+            {
+                Name = "HTML Document Conversion",
+                CommandLineArguments = "f html -s \"{fileIn}\" -o \"{fileOut}\"",
+                PromptForOutputFilename = true,
+                Description =
+                    "Converts the current document to HTML using the active Markdown Parser (not necessarily Pandoc) and then uses Pandoc to convert the resulting HTML to the specified output format. This dialog prompts for a filename, the extension of which determines what format the file is created with. Common formats include: .pdf, .docx, .epub, .html, .odt etc."
+            };
+            Model.Configurations.Add(config);
+        }
 
         private void PandocMarkdownParserWindow_Loaded(object sender, RoutedEventArgs e)
         {                                     
@@ -110,6 +131,11 @@ namespace PanDocMarkdownParserAddin
             
         }
 
+        private void ToolButtonPandocFormats_Click(object sender, RoutedEventArgs e)
+        {
+            ShellUtils.GoUrl("https://pandoc.org/");
+        }
+
         private void RunConfiguration()
         {
 
@@ -124,13 +150,52 @@ namespace PanDocMarkdownParserAddin
             var docFile = Model.Addin.Model.ActiveDocument.Filename;
             var path = Path.GetDirectoryName(docFile);
 
-            if (item.PromptForFilename)
+            string inputFile;
+            if (item.PromptForInputFilename)
+            {
+                var of = new OpenFileDialog
+                {
+                    Filter = "Markdown Files (*.md, .markdown)|*.md;*.markdown|Html Files(*.htm,html)|*.html;*.htm|Word Docx Files (*.docx)|*.docx|epub files (*.epub)|*.epub|Open Office ODT Files (*.odt)|*.odt|Open Document XML (*.xml)|*.xml|All Files (*.*)|*.*",
+                    FilterIndex = 1,
+                    Title = "Open input file for Pandoc Conversion",
+                    FileName = null,
+                    InitialDirectory = path,
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+                    RestoreDirectory = true
+                };
+
+                var result = of.ShowDialog();
+                if (result == null || !result.Value)
+                    return;
+                inputFile = of.FileName;
+                path = Path.GetDirectoryName(inputFile);
+            }
+            else
+            {
+                if (item.CommandLineArguments.Contains("-f html"))
+                {
+                    string html = Model.Addin.Model.ActiveDocument.RenderHtml();
+                    inputFile = Model.Addin.Model.ActiveDocument.HtmlRenderFilename;
+                    File.WriteAllText(inputFile, html);
+                }
+                else
+                {
+                    inputFile = Path.ChangeExtension(Path.GetTempFileName(), ".md");
+                    File.WriteAllText(inputFile, markdown);                    
+                }
+            }
+
+            
+
+            if (item.PromptForOutputFilename)
             {
                 var sd = new SaveFileDialog
                 {
                     Filter = "PDF Files (*.pdf)|*.pdf|Word Docx Files (*.docx)|*.docx|Html Files(*.htm,html)|*.html;*.htm|epub files (*.epub)|*.epub|Open Office ODT Files (*.odt)|*.odt|Open Document XML (*.xml)|*.xml|All Files (*.*)|*.*",
                     FilterIndex = 1,
                     FileName = null,
+                    Title = "Specify output file Pandoc Conversion",
                     InitialDirectory = path,
                     CheckFileExists = false,
                     OverwritePrompt = true,
@@ -146,11 +211,11 @@ namespace PanDocMarkdownParserAddin
                     ShowStatus("Document creation in progress...");
                     TextConsole.Text = null;
 
-                    var res = item.Execute(markdown, sd.FileName, path);
+                    var res = item.Execute(markdown, sd.FileName, inputFile, path);
                     TextConsole.Text = res.Item2;
 
                     if (res.Item1)
-                        ShellUtils.GoUrl(sd.FileName);
+                        ShellUtils.GoUrl(sd.FileName);  
 
                     ShowStatus("Output was generated.", 6000);
                 }

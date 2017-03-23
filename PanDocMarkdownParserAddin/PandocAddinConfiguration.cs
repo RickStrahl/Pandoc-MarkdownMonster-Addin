@@ -5,7 +5,7 @@ namespace PanDocMarkdownParserAddin
 {
     public class PandocAddinConfiguration : BaseAddinConfiguration<PandocAddinConfiguration>
     {
-        protected override string ConfigurationFilePath { get; set; } = "PandocAddin.json";
+        protected override string ConfigurationFilename { get; set; } = "PandocAddin.json";
 
   
 
