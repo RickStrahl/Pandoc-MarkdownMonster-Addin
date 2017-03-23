@@ -16,7 +16,7 @@ namespace PanDocMarkdownParserAddin
         {
             base.OnApplicationStart();
 
-            Id = "PanDocMarkdownParserAddin";
+            Id = "PanDocMarkdownParser";
             Name = "Pandoc Markdown Parser";
 
             // by passing in the add in you automatically

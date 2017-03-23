@@ -1,12 +1,10 @@
 ﻿{
-  {
     "id": "PanDocMarkdownParser",
-    "name": "PanDoc Markdown Parser",
-    "summary": "Pandoc Markdown Parser and Pandoc Conversion Recipies",
-    "description": null,    
-    "version": "0.01",
-    "minVersion": "1.0",
+    "name": "Pandoc Markdown Parser and Pandoc Conversion Launcher (Beta)",
+    "summary": "Use the Pandoc Markdown parser in Markdown Monster, and create custom, reusable Pandoc conversion recipies with Pandoc Conversion Launcher.",
+    "description": null,
+    "version": "0.02",
+    "minVersion": "1.2.15",
     "author": "© West Wind Technologies, 2017",
-    "updated": "2017-3-14T12:00:00Z"
-  }
+    "updated": "2017-3-23T12:00:00Z"
 }
