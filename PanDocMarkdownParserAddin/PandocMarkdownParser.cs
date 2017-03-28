@@ -4,13 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MarkdownMonster;
 using Westwind.Utilities;
 
 namespace PanDocMarkdownParserAddin
 {
-    public class PandocMarkdownParser : IMarkdownParser
+    public class PandocMarkdownParser : MarkdownParserBase, IMarkdownParser
     {
         private PandocAddinConfiguration Configuration = PandocAddinConfiguration.Current;
 
@@ -18,8 +19,10 @@ namespace PanDocMarkdownParserAddin
         public string ErrorOutput { get; set; }
 
 
-        public string Parse(string markdown)
+        public override string Parse(string markdown)
         {
+            markdown = StripFrontMatter(markdown);
+
             var tfileIn = Path.ChangeExtension(Path.GetTempFileName(), ".md");
             var tfileOut = Path.ChangeExtension(Path.GetTempFileName(), ".html");
 
@@ -59,9 +62,19 @@ namespace PanDocMarkdownParserAddin
             File.Delete(tfileIn);
             File.Delete(tfileOut);
 
-            return html;
 
+            html = ParseFontAwesomeIcons(html);
+
+            if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
+                html = ParseExternalLinks(html);
+
+            if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
+                html = ParseScript(html);
+
+            return html;
         }
+
+       
 
 
     }

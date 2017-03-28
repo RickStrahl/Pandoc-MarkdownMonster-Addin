@@ -21,7 +21,6 @@ The parser is registered in Markdown Monster and when available can be selected 
 > ### No Document Synching
 > Currently, due to the lack of **pragma lines support** in Pandoc, the editor and Markdown document cannot be linked automatically as you navigate one or the other document. If document syncing is important to you continue to use the **MarkDig** parser, and then switch to Pandoc parsing when you generate your final output.
 
-
 ### Pandoc Configurations Form and Runner
 This addin supports configuring a number of different command line scenarios for running Pandoc and producing various kinds of output from the current document. This will pick up the currently active markdown document and uses it to run pandoc to produce various kinds of output.
 
