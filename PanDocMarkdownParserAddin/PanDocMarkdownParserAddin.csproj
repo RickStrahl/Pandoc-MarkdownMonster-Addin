@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Users\rstrahl\AppData\Roaming\Markdown Monster\Addins\PanDocMarkdownParser\</OutputPath>
+    <OutputPath>$(AppData)\Markdown Monster\Addins\PanDocMarkdownParser\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,30 +25,30 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\Users\rstrahl\AppData\Roaming\Markdown Monster\Addins\PanDocMarkdownParser\</OutputPath>
+    <OutputPath>$(AppData)\Markdown Monster\Addins\PanDocMarkdownParser\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FontAwesome.WPF">
-      <HintPath>$(ProgramFiles)\Markdown Monster\FontAwesome.WPF.dll</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\FontAwesome.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>$(ProgramFiles)\Markdown Monster\MahApps.Metro.dll</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>$(ProgramFiles)\Markdown Monster\NewtonSoft.Json.dll</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\NewtonSoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Westwind.Utilities">
-      <HintPath>$(ProgramFiles)\Markdown Monster\Westwind.Utilities.dll</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\Westwind.Utilities.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MarkdownMonster">
-      <HintPath>$(ProgramFiles)\Markdown Monster\MarkdownMonster.exe</HintPath>
+      <HintPath>$(LocalAppData)\Markdown Monster\MarkdownMonster.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
