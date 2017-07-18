@@ -35,6 +35,4 @@ This addin supports configuring a number of different command line scenarios for
 
 You can set up separate configurations with differing output and command line options for running Pandoc.
 
-
-
 Alternately you can explicitly install these two tools separately. Both tools register themselves in the System path, so make sure you restart Markdown Monster after installing them.
