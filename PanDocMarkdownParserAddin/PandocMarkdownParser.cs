@@ -20,9 +20,7 @@ namespace PanDocMarkdownParserAddin
 
 
         public override string Parse(string markdown)
-        {
-            markdown = StripFrontMatter(markdown);
-
+        {           
             var tfileIn = Path.ChangeExtension(Path.GetTempFileName(), ".md");
             var tfileOut = Path.ChangeExtension(Path.GetTempFileName(), ".html");
 
