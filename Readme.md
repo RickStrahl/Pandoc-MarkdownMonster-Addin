@@ -7,9 +7,16 @@ This addin provides the following for Markdown Monster:
 
 ![Pandoc Markdown Monster Addin Features](PanDocMarkdownParserAddin/screenshot.png)
 
+
+> #### Pandoc Installation
+>This addin does not ship with Pandoc - it's up to you to install Pandoc on your Windows machine. We recommend you install **Pandoc** and **MikTex** via [Chocolatey](https://chocolatey.org/).
+> ```dos
+> choco install pandoc
+> choco install MikTex  
+> ```
+
 ### Installing the Addin
 The addin install from the Markdown Monster Addin Manager. Click **Tools -> Addin Manager** and pick the **Pandoc Markdown Parser** from the list of addins.
-
 
 ### The Markdown Parser
 The Pandoc Markdown parser is an addin markdown parser that is made available to Markdown Monster and can be selected in Markdown Monster as the parser for rendering HTML output.
@@ -27,13 +34,5 @@ This addin supports configuring a number of different command line scenarios for
 ![](ConfigurationsWindows.png)
 
 You can set up separate configurations with differing output and command line options for running Pandoc.
-
-### Pandoc Installation
-This addin does not ship with Pandoc - it's your responsibility to install Pandoc. We recommend you install **Pandoc** and **MikTex** via [Chocolatey](https://chocolatey.org/).
-
-```dos
-choco install pandoc
-choco install MikTex
-```
 
 Alternately you can explicitly install these two tools separately. Both tools register themselves in the System path, so make sure you restart Markdown Monster after installing them.
