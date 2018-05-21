@@ -3,8 +3,8 @@
     "name": "Pandoc Markdown Parser and Pandoc Conversion Launcher (Beta)",
     "summary": "Use the Pandoc Markdown parser in Markdown Monster, and create custom, reusable Pandoc conversion recipies with Pandoc Conversion Launcher.",
     "description": "This addin contains a Pandoc Markdown Parser that plugs into the main Markdown Monster rendering process as the primary rendered.\r\n\r\nThe addin also provides a simple registry of Pandoc commands you can create to run common Pandoc conversion for creating output for various formats. Pandoc support includes support for .pdf, .docx, .epub, .odt and many more formats.",
-    "version": "0.2.6",
-    "minVersion": "1.10.20",
+    "version": "0.2.7",
+    "minVersion": "1.11.3",
     "author": "© West Wind Technologies, 2017-2018",
-    "updated": "2018-05-11T12:00:00Z"
+    "updated": "2018-05-20T12:00:00Z"
 }

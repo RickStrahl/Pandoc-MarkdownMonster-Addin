@@ -4,12 +4,12 @@ using MarkdownMonster.AddIns;
 namespace PanDocMarkdownParserAddin
 {
     public class PandocAddinConfiguration : BaseAddinConfiguration<PandocAddinConfiguration>
-    {
-        protected override string ConfigurationFilename { get; set; } = "PandocAddin.json";
-
+    {        
+        public PandocAddinConfiguration()
+        {                
+            ConfigurationFilename = "PandocAddin.json";
+        }
   
-
-
         /// <summary>
         /// The path to the Pandoc executable or just Pandoc if it
         /// is on the system path (as it is with a full install).
