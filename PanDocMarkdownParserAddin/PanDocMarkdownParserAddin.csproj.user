@@ -6,6 +6,6 @@
     <StartWorkingDirectory>$(LocalAppData)\Markdown Monster</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
 </Project>
