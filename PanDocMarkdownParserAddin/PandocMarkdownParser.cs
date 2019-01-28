@@ -22,7 +22,7 @@ namespace PanDocMarkdownParserAddin
         public override string Parse(string markdown)
         {           
             var tfileIn = Path.ChangeExtension(Path.GetTempFileName(), ".md");
-            var tfileOut = Path.ChangeExtension(Path.GetTempFileName(), ".html");
+            var tfileOut = Path.ChangeExtension(tfileIn, ".html");
 
             File.WriteAllText(tfileIn, markdown);
 
@@ -44,9 +44,6 @@ namespace PanDocMarkdownParserAddin
             Output = process.StandardOutput.ReadToEnd();
             ErrorOutput = process.StandardError.ReadToEnd();
 
-            if (!string.IsNullOrEmpty(ErrorOutput))
-                throw new InvalidOperationException(ErrorOutput);
-
             bool res = process.WaitForExit(10000);
             
             string html = null;
@@ -55,6 +52,11 @@ namespace PanDocMarkdownParserAddin
                 html = File.ReadAllText(tfileOut);
                 html = StringUtils.ExtractString(html, "<body>\r\n", "\r\n</body>");
                 //html = "<small style='color: steelblue;'>Pandoc Markdown Parser</small><hr/>" + html;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(ErrorOutput))
+                    throw new InvalidOperationException(ErrorOutput);
             }
 
             File.Delete(tfileIn);
@@ -67,7 +69,7 @@ namespace PanDocMarkdownParserAddin
                 html = ParseExternalLinks(html);
 
             if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
-                html = ParseScript(html);
+                html = HtmlUtils.SanitizeHtml(html);
 
             return html;
         }
