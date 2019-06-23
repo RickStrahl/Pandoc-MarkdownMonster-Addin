@@ -189,14 +189,16 @@ namespace PanDocMarkdownParserAddin
             }
 
             
-
+            
             if (item.PromptForOutputFilename)
             {
+
+                string filename = Path.GetFileName(Path.ChangeExtension(inputFile, item.OutputExtension ?? ".pdf"));
                 var sd = new SaveFileDialog
                 {
                     Filter = "PDF Files (*.pdf)|*.pdf|Word Docx Files (*.docx)|*.docx|Html Files(*.htm,html)|*.html;*.htm|epub files (*.epub)|*.epub|Open Office ODT Files (*.odt)|*.odt|Open Document XML (*.xml)|*.xml|All Files (*.*)|*.*",
                     FilterIndex = 1,
-                    FileName = null,
+                    FileName = filename,
                     Title = "Specify output file Pandoc Conversion",
                     InitialDirectory = path,
                     CheckFileExists = false,
