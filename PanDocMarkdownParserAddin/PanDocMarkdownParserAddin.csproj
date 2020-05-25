@@ -1,101 +1,64 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BFA9CC64-B041-4455-B8FB-47FA018EFA21}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PanDocMarkdownParserAddin</RootNamespace>
-    <AssemblyName>PanDocMarkdownParserAddin</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Version>0.3.2</Version>
+    <TargetFramework>net472</TargetFramework>
+    <UseWPF>true</UseWPF>
+
+    <!--<TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>-->
+    <AssemblyName>PandocMarkdownParserAddin</AssemblyName>
+    <Product>Markdown Monster</Product>
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
+    <Company>West Wind Technologies</Company>
+    <Copyright>West Wind Technologies, 2016-2020</Copyright>
+    <Description>Markdown Monster PanDoc Markdown Parsing and Pandoc Export Support Addin.</Description>
+
+
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutDir>$(appdata)\Markdown Monster\Addins\PanDocMarkdownParser</OutDir>
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>$(AppData)\Markdown Monster\Addins\PanDocMarkdownParser\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>$(AppData)\Markdown Monster\Addins\PanDocMarkdownParser\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="FontAwesome.WPF">
-      <HintPath>$(LocalAppData)\Markdown Monster\FontAwesome.WPF.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MahApps.Metro">
-      <HintPath>$(LocalAppData)\Markdown Monster\MahApps.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(LocalAppData)\Markdown Monster\NewtonSoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Westwind.Utilities">
-      <HintPath>$(LocalAppData)\Markdown Monster\Westwind.Utilities.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MarkdownMonster">
-      <HintPath>$(LocalAppData)\Markdown Monster\MarkdownMonster.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <PackageReference Include="MahApps.Metro" Version="1.6.5">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Westwind.Utilities" Version="3.0.40">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+
+  <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="WindowsBase" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="PandocAddinModel.cs" />
-    <Compile Include="PandocWindow.xaml.cs">
-      <DependentUpon>PandocWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PandocConfigurationItem.cs" />
-    <Compile Include="PanDocMarkdownParserAddin.cs" />
-    <Compile Include="PandocAddinConfiguration.cs" />
-    <Compile Include="PandocMarkdownParser.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <Reference Include="c:\projects\MarkdownMonster\MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
+
   <ItemGroup>
     <Resource Include="hsizegrip.png" />
-    <Resource Include="icon_22.png" />
-    <Content Include="version.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icon.png" />
+    <Resource Include="icon_22.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Include="PandocWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Build.ps1" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <DefineConstants>NETFULL</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
 </Project>

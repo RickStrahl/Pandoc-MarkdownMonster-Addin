@@ -1,20 +1,22 @@
 ﻿<controls:MetroWindow  x:Class="PanDocMarkdownParserAddin.PandocMarkdownParserWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PanDocMarkdownParserAddin"
-        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
-        mc:Ignorable="d"                            
-        Title="Pandoc Operations" TitleCharacterCasing="Normal"        
-        FontSize="15"                              
-        WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"
-        WindowStartupLocation="CenterOwner"         
-        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="900" Height="600" MinHeight="600"  MinWidth="700"                             
-        TitlebarHeight="35"
-        WindowTransitionsEnabled="False">
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:local="clr-namespace:PanDocMarkdownParserAddin"
+                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                       xmlns:fa="http://schemas.fontawesome.io/icons/"
+                       mc:Ignorable="d"                            
+                       Title="Pandoc Operations" TitleCharacterCasing="Normal"        
+                       FontSize="15"                              
+                       WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"
+                       WindowStartupLocation="CenterOwner"         
+                       IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+                       Width="900" Height="600" MinHeight="600"  MinWidth="700"                             
+                       TitlebarHeight="35"
+                       Icon="icon.png"  
+                       WindowTransitionsEnabled="False">
     <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="310" />
@@ -152,7 +154,7 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Foreground="#cccccc"  Padding="0,2,0,0">Console output</TextBlock>
-                                <Image Grid.Column="0" Source="hsizegrip.png" Width="30" HorizontalAlignment="Center" />
+                                <Image Grid.Column="0" Source="hsizegrip.png" Width="30" Height="7" HorizontalAlignment="Center" />
                             </Grid>
 
                         </Grid>
