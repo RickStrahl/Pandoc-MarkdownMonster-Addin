@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>0.3.8</Version>
+    <Version>0.3.9</Version>
     <TargetFramework>net472</TargetFramework>
     <UseWPF>true</UseWPF>
 
@@ -20,13 +20,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="1.6.5">
+    <PackageReference Include="MahApps.Metro" Version="2.1.1">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.40">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.41">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
   </ItemGroup>

@@ -14,7 +14,6 @@
                        WindowStartupLocation="CenterOwner"         
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
                        Width="900" Height="600" MinHeight="600"  MinWidth="700"                             
-                       TitlebarHeight="35"
                        Icon="icon.png"  
                        WindowTransitionsEnabled="False">
     <Grid>
