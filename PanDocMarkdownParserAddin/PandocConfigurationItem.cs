@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
-using PanDocMarkdownParserAddin.Annotations;
 
 namespace PanDocMarkdownParserAddin
 {
@@ -88,7 +87,7 @@ namespace PanDocMarkdownParserAddin
             {
                 if (value == _promptForOutputFilename) return;
                 _promptForOutputFilename = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(PromptForOutputFilename));
             }
         }
         private bool _promptForOutputFilename;
@@ -105,16 +104,23 @@ namespace PanDocMarkdownParserAddin
             {
                 if (value == _promptForInputFilename) return;
                 _promptForInputFilename = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(_promptForInputFilename));
             }
         }
         private bool _promptForInputFilename;
 
 
 
-        public Tuple<bool,string> Execute(string markdown, string outputFile, string inputFile, string basePath)
+        public (bool,string) Execute(string markdown, string outputFile, string inputFile, string basePath, bool deleteInputFile = false)
         {
-            File.Delete(outputFile);
+            try
+            {
+                File.Delete(outputFile);
+            }
+            catch(Exception ex)
+            {
+                return (false, $"Unable to delete {outputFile}: Most likely the file is open and can't be overwritten. Please close the file.");
+            }
 
             if (!OutputExtension.StartsWith("."))
                 OutputExtension = "." + OutputExtension;
@@ -148,18 +154,17 @@ namespace PanDocMarkdownParserAddin
             console = process.StandardOutput.ReadToEnd();
 
             
-            
-            File.Delete(inputFile);
+            if (deleteInputFile)
+                File.Delete(inputFile);
 
-            return new Tuple<bool, string>( File.Exists(outputFile), console);
+            return (File.Exists(outputFile), console);
         }
 
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

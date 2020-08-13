@@ -13,7 +13,7 @@
                        WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"
                        WindowStartupLocation="CenterOwner"         
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-                       Width="900" Height="600" MinHeight="600"  MinWidth="700"                             
+                       Width="900" Height="650" MinHeight="600"  MinWidth="700"                             
                        Icon="icon.png"  
                        WindowTransitionsEnabled="False">
     <Grid>
@@ -100,6 +100,7 @@
 
 
         <ListBox Grid.Row="1" Grid.Column="0" Name="ListConfigurations"
+                             Padding="5,15,0,0"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"                             
                              ItemsSource="{Binding Configurations}"  
                              SelectedItem="{Binding ActiveConfiguration}"
@@ -112,39 +113,39 @@
                              KeyUp="ListCommands_KeyUp">
         </ListBox>
 
-        <Grid Grid.Row="1" Grid.Column="1"  Margin="10,0">
+        <Grid Grid.Row="1" Grid.Column="1"  Margin="15,10,15,0">
             <Grid.RowDefinitions>
                 <RowDefinition  Height="*"/>
                 <RowDefinition Height="22" />
-                <RowDefinition Height="170" />
+                <RowDefinition Height="200" />
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0">
-                <TextBlock Margin="0,0,0,4">Configuration Name</TextBlock>
-                <TextBox Text="{Binding ActiveConfiguration.Name, UpdateSourceTrigger=PropertyChanged }" 
-                         FontSize="14" />
+                <TextBox Style="{StaticResource HeaderTextBoxStyle}"
+                    controls:TextBoxHelper.Watermark="Configuration title"   
+                    Text="{Binding ActiveConfiguration.Name, UpdateSourceTrigger=PropertyChanged }" />
 
-                <TextBlock Margin="0,10,0,4">Pandoc Command Line Arguments</TextBlock>
-                <TextBox Text="{Binding ActiveConfiguration.CommandLineArguments}" 
-                         FontSize="14"
-                         ToolTip="The command line executed for this command."  />
-                
-                <TextBlock Margin="0,10,0,4">Description</TextBlock>
                 <TextBox Text="{Binding ActiveConfiguration.Description}" 
+                         BorderThickness="0" Padding="5" Margin="0,10,0,0" FontSize="15"
+                         Height="auto" 
+                         Background="{StaticResource LowLightBackgroundBrush}"
+                         Foreground="{StaticResource LowLightForegroundBrush}"
+                         ScrollViewer.CanContentScroll="True"
                          TextWrapping="Wrap" AcceptsReturn="True"
-                         Height="90" 
-                         FontSize="14"
                          ToolTip="Description of how this Pandoc shortcut works."  />
 
-                <CheckBox IsChecked="{Binding ActiveConfiguration.PromptForOutputFilename}" Margin="0,10,0,0">prompt for output file name</CheckBox>
-                <CheckBox IsChecked="{Binding ActiveConfiguration.PromptForInputFilename}" Margin="0,10,0,0">prompt for input file name</CheckBox>
+                <TextBlock Margin="0,20,0,5">Pandoc Command Line Arguments</TextBlock>
+                <TextBox Text="{Binding ActiveConfiguration.CommandLineArguments}" 
+                         ToolTip="The command line executed for this command."  />
+              
 
-                
+                <CheckBox IsChecked="{Binding ActiveConfiguration.PromptForOutputFilename}" Margin="0,15,0,0">prompt for output file name</CheckBox>
+                <CheckBox IsChecked="{Binding ActiveConfiguration.PromptForInputFilename}" Margin="0,10,0,0">prompt for input file name</CheckBox>
 
             </StackPanel>
 
 
-            <GridSplitter Name="Splitter" Grid.Row="1" HorizontalAlignment="Stretch"  >
+            <GridSplitter Name="Splitter" Grid.Row="1" HorizontalAlignment="Stretch" ShowsPreview="False" >
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
                         <Grid Background="Transparent">
@@ -160,7 +161,11 @@
                     </ControlTemplate>
                 </GridSplitter.Template>
             </GridSplitter>
-            <TextBox Name="TextConsole" Grid.Row="2" FontFamily="Consolas" FontSize="16" Background="#292929" BorderThickness="0"></TextBox>
+            <TextBox Name="TextConsole" Grid.Row="2" FontFamily="Consolas" 
+                     FontSize="16" Margin="0,3,0,0"
+                     Background="{StaticResource LowLightBackgroundBrush}"
+                     Foreground="{StaticResource LowLightForegroundBrush}"
+                     BorderThickness="0"></TextBox>
 
 
            

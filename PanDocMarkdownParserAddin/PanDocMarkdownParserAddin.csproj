@@ -49,6 +49,10 @@
     <Resource Include="icon_22.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <DefineConstants>NETCORE</DefineConstants>
@@ -59,6 +63,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <OutputPath>C:\Users\rstrahl\AppData\Roaming\Markdown Monster\Addins\PandocMarkdownParser</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>C:\Users\rstrahl\AppData\Roaming\Markdown Monster\Addins\PandocMarkdownParser</OutputPath>
   </PropertyGroup>
 

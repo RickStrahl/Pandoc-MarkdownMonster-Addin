@@ -147,10 +147,13 @@ namespace PanDocMarkdownParserAddin
             if (editor == null)
                 return;
 
+            bool generateHtml = item.CommandLineArguments.Contains("-f html");
             var markdown = Model.Addin.Model.ActiveEditor.GetMarkdown();
             var docFile = Model.Addin.Model.ActiveDocument.Filename;
             var path = Path.GetDirectoryName(docFile);
             TextConsole.Text = "";
+
+            
 
             string inputFile;
             if (item.PromptForInputFilename)
@@ -175,7 +178,7 @@ namespace PanDocMarkdownParserAddin
             }
             else
             {
-                if (item.CommandLineArguments.Contains("-f html"))
+                if (generateHtml)
                 {
                     string html = Model.Addin.Model.ActiveDocument.RenderHtml();
                     inputFile = Model.Addin.Model.ActiveDocument.HtmlRenderFilename;
@@ -183,7 +186,7 @@ namespace PanDocMarkdownParserAddin
                 }
                 else
                 {
-                    inputFile = Path.ChangeExtension(Path.GetTempFileName(), ".md");
+                    inputFile = Path.ChangeExtension(docFile, ".md");
                     File.WriteAllText(inputFile, markdown, new UTF8Encoding(false) /* pandoc doesn't like the BOM */);                    
                 }
             }
@@ -192,7 +195,6 @@ namespace PanDocMarkdownParserAddin
             
             if (item.PromptForOutputFilename)
             {
-
                 string filename = Path.GetFileName(Path.ChangeExtension(inputFile, item.OutputExtension ?? ".pdf"));
                 var sd = new SaveFileDialog
                 {
@@ -215,10 +217,10 @@ namespace PanDocMarkdownParserAddin
                     ShowStatus("Document creation in progress...");
                     TextConsole.Text = null;
 
-                    var res = item.Execute(markdown, sd.FileName, inputFile, path);
-                    TextConsole.Text = res.Item2;
+                    (bool success,string consoleText) = item.Execute(markdown, sd.FileName, inputFile, path, generateHtml);
+                    TextConsole.Text = consoleText;
 
-                    if (res.Item1)
+                    if (success)
                         ShellUtils.GoUrl(sd.FileName);  
 
                     ShowStatus("Output was generated.", 6000);

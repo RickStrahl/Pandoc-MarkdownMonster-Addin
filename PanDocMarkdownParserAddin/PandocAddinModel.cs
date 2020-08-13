@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using PanDocMarkdownParserAddin.Annotations;
 
 namespace PanDocMarkdownParserAddin
 {
@@ -69,8 +68,8 @@ namespace PanDocMarkdownParserAddin
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        
+        protected virtual void OnPropertyChanged( string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

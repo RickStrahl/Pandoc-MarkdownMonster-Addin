@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "PanDocMarkdownParserAddin": {
+      "commandName": "Executable",
+      "executablePath": "C:\\projects\\MarkdownMonster\\MarkdownMonster\\bin\\Release\\net472\\win-x86\\MarkdownMonster.exe",
+      "workingDirectory": "C:\\projects\\MarkdownMonster\\MarkdownMonster\\bin\\Release\\net472\\win-x86"
+    }
+  }
+}
