@@ -95,6 +95,9 @@ namespace PanDocMarkdownParserAddin
                 Model.AddinConfiguration.Configurations.Add(item.Name, item);
 
             Model.AddinConfiguration.Write();
+
+            // make sure MM gets activated not the opened preview app
+            Model.Addin.Model.Window.Activate();
         }
 
 
