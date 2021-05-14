@@ -65,10 +65,10 @@ namespace PanDocMarkdownParserAddin
 
             html = ParseFontAwesomeIcons(html);
 
-            if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
+            if (mmApp.Configuration.Markdown.RenderLinksAsExternal)
                 html = ParseExternalLinks(html);
 
-            if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
+            if (!mmApp.Configuration.Markdown.AllowRenderScriptTags)
                 html = HtmlUtils.SanitizeHtml(html);
 
             return html;
