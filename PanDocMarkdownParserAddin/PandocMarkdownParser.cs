@@ -74,8 +74,5 @@ namespace PanDocMarkdownParserAddin
             return html;
         }
 
-       
-
-
     }
 }

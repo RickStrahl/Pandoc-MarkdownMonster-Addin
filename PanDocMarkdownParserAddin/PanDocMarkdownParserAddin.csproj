@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>0.3.12</Version>
+    <Version>0.3.25</Version>
     <TargetFramework>net472</TargetFramework>
     <UseWPF>true</UseWPF>
 
@@ -10,7 +10,7 @@
     <Product>Markdown Monster</Product>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
     <Company>West Wind Technologies</Company>
-    <Copyright>West Wind Technologies, 2016-2020</Copyright>
+    <Copyright>West Wind Technologies, 2016-2021</Copyright>
     <Description>Markdown Monster PanDoc Markdown Parsing and Pandoc Export Support Addin.</Description>
 
 
@@ -20,13 +20,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.5">
+    <PackageReference Include="MahApps.Metro" Version="2.4.6">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.58">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.59">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
   </ItemGroup>
@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <Reference Include="c:\projects\MarkdownMonsterCode\MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
+    <Reference Include="c:\projects\MarkdownMonsterCode\MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x64\MarkdownMonster.exe">
       <Private>false</Private>
     </Reference>
   </ItemGroup>

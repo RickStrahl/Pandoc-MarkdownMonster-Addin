@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -140,7 +141,7 @@ namespace PanDocMarkdownParserAddin
             ShellUtils.GoUrl("https://pandoc.org/");
         }
 
-        private void RunConfiguration()
+        private async Task RunConfiguration()
         {
 
             var item = ListConfigurations.SelectedItem as PandocConfigurationItem;
@@ -151,7 +152,7 @@ namespace PanDocMarkdownParserAddin
                 return;
 
             bool generateHtml = item.CommandLineArguments.Contains("-f html");
-            var markdown = Model.Addin.Model.ActiveEditor.GetMarkdown();
+            var markdown = await Model.Addin.Model.ActiveEditor.GetMarkdown();
             var docFile = Model.Addin.Model.ActiveDocument.Filename;
             var path = Path.GetDirectoryName(docFile);
             TextConsole.Text = "";

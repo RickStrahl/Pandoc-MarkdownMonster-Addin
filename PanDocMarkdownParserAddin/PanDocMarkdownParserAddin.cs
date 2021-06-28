@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
@@ -12,7 +13,7 @@ namespace PanDocMarkdownParserAddin
 {
     public class PanDocMarkdownParserAddin : MarkdownMonster.AddIns.MarkdownMonsterAddin
     {
-        public override void OnApplicationStart()
+        public override Task OnApplicationStart()
         {
             base.OnApplicationStart();
 
@@ -37,25 +38,29 @@ namespace PanDocMarkdownParserAddin
 
             // Must add the menu to the collection to display menu and toolbar items            
             this.MenuItems.Add(menuItem);
+
+            return Task.CompletedTask;
         }
         
-        public override IMarkdownParser GetMarkdownParser()
+        public override IMarkdownParser GetMarkdownParser(bool usePragmaLines, bool force)
         {
             return new PandocMarkdownParser();
         }
 
         private PandocMarkdownParserWindow form;
 
-        public override void OnExecute(object sender)
+        public override Task OnExecute(object sender)
         {
             form = new PandocMarkdownParserWindow(this);
             form.Owner = Model.Window;
             form.Show();
+
+            return Task.CompletedTask;
         }
 
-        public override void OnExecuteConfiguration(object sender)
+        public override async Task OnExecuteConfiguration(object sender)
         {
-            OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "PandocAddin.json"));
+            await OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "PandocAddin.json"));
         }
 
         public override bool OnCanExecute(object sender)
