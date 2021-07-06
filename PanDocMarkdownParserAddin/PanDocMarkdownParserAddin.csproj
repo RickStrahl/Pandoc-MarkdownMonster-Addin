@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <Reference Include="c:\projects\MarkdownMonsterCode\MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x64\MarkdownMonster.exe">
+    <Reference Include="c:\projects\MarkdownMonsterCode1.0\MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
       <Private>false</Private>
     </Reference>
   </ItemGroup>

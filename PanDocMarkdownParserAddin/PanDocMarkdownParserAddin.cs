@@ -13,7 +13,7 @@ namespace PanDocMarkdownParserAddin
 {
     public class PanDocMarkdownParserAddin : MarkdownMonster.AddIns.MarkdownMonsterAddin
     {
-        public override Task OnApplicationStart()
+        public override void OnApplicationStart()
         {
             base.OnApplicationStart();
 
@@ -38,8 +38,6 @@ namespace PanDocMarkdownParserAddin
 
             // Must add the menu to the collection to display menu and toolbar items            
             this.MenuItems.Add(menuItem);
-
-            return Task.CompletedTask;
         }
         
         public override IMarkdownParser GetMarkdownParser(bool usePragmaLines, bool force)
@@ -49,18 +47,16 @@ namespace PanDocMarkdownParserAddin
 
         private PandocMarkdownParserWindow form;
 
-        public override Task OnExecute(object sender)
+        public override void OnExecute(object sender)
         {
             form = new PandocMarkdownParserWindow(this);
             form.Owner = Model.Window;
             form.Show();
-
-            return Task.CompletedTask;
         }
 
-        public override async Task OnExecuteConfiguration(object sender)
+        public override void OnExecuteConfiguration(object sender)
         {
-            await OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "PandocAddin.json"));
+            OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "PandocAddin.json"));
         }
 
         public override bool OnCanExecute(object sender)

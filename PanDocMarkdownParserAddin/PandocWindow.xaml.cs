@@ -141,7 +141,7 @@ namespace PanDocMarkdownParserAddin
             ShellUtils.GoUrl("https://pandoc.org/");
         }
 
-        private async Task RunConfiguration()
+        private void RunConfiguration()
         {
 
             var item = ListConfigurations.SelectedItem as PandocConfigurationItem;
@@ -152,7 +152,7 @@ namespace PanDocMarkdownParserAddin
                 return;
 
             bool generateHtml = item.CommandLineArguments.Contains("-f html");
-            var markdown = await Model.Addin.Model.ActiveEditor.GetMarkdown();
+            var markdown =  Model.Addin.Model.ActiveEditor.GetMarkdown();
             var docFile = Model.Addin.Model.ActiveDocument.Filename;
             var path = Path.GetDirectoryName(docFile);
             TextConsole.Text = "";
