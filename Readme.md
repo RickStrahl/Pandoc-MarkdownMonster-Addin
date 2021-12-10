@@ -14,9 +14,13 @@ This addin provides the following for Markdown Monster:
 > choco install pandoc
 > choco install MikTex  
 > ```
+>  
+> MikText is used for advanced Latex and PDF conversions.
 
 ### Installing the Addin
-The addin install from the Markdown Monster Addin Manager. Click **Tools -> Addin Manager** and pick the **Pandoc Markdown Parser** from the list of addins.
+The addin installs from the **Markdown Monster Addin Manager**. Click **Tools -> Addin Manager** and pick the **Pandoc Markdown Parser** from the list of addins to install.
+
+Once installed **you have to restart Markdown Monster** for PanDoc's Markdown Parser to become available in the list of Markdown Parsers.
 
 ### The Markdown Parser
 The Pandoc Markdown parser is an addin markdown parser that is made available to Markdown Monster and can be selected in Markdown Monster as the parser for rendering HTML output.
