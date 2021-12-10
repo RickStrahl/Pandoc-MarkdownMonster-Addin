@@ -17,10 +17,16 @@ This addin provides the following for Markdown Monster:
 >  
 > MikText is used for advanced Latex and PDF conversions.
 
-### Installing the Addin
+### Installing and Configuring the Addin
 The addin installs from the **Markdown Monster Addin Manager**. Click **Tools -> Addin Manager** and pick the **Pandoc Markdown Parser** from the list of addins to install.
 
-Once installed **you have to restart Markdown Monster** for PanDoc's Markdown Parser to become available in the list of Markdown Parsers.
+After installation make sure to:
+
+* Restart Markdown Monster to make the PanDoc Parser available
+* Make sure `PanDoc.exe` is on the User or System Path 
+
+If you installed PanDoc via Chocolatey, the PanDoc is automatically available on the path. If you manually installed make sure to add the path to your User or System path and restart Markdown Monster to pick it up.
+
 
 ### The Markdown Parser
 The Pandoc Markdown parser is an addin markdown parser that is made available to Markdown Monster and can be selected in Markdown Monster as the parser for rendering HTML output.
