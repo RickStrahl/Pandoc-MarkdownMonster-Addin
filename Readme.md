@@ -22,8 +22,8 @@ The addin installs from the **Markdown Monster Addin Manager**. Click **Tools ->
 
 After installation make sure to:
 
-* Restart Markdown Monster to make the PanDoc Parser available
-* Make sure `PanDoc.exe` is on the User or System Path 
+* **Restart Markdown Monster** to make the PanDoc Parser available
+* Make sure `PanDoc.exe` is **on the User or System Path** 
 
 If you installed PanDoc via Chocolatey, the PanDoc is automatically available on the path. If you manually installed make sure to add the path to your User or System path and restart Markdown Monster to pick it up.
 
