@@ -9,13 +9,14 @@ This addin provides the following for Markdown Monster:
 
 
 > #### Pandoc Installation
->This addin does not ship with Pandoc - it's up to you to install Pandoc on your Windows machine. We recommend you install **Pandoc** and **MikTex** via [Chocolatey](https://chocolatey.org/).
-> ```dos
+>This addin does not ship with Pandoc as PanDoc is very large and has redistribution restrictions. It's up to you to install Pandoc on your Windows machine. 
+>
+> The easiest way to **Pandoc** and **MikTex** (used for PDF/Doc conversions) is via [Chocolatey](https://chocolatey.org/).
+>
+> ```ps
 > choco install pandoc
 > choco install MikTex  
 > ```
->  
-> MikText is used for advanced Latex and PDF conversions.
 
 ### Installing and Configuring the Addin
 The addin installs from the **Markdown Monster Addin Manager**. Click **Tools -> Addin Manager** and pick the **Pandoc Markdown Parser** from the list of addins to install.
