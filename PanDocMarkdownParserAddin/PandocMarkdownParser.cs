@@ -39,8 +39,19 @@ namespace PanDocMarkdownParserAddin
 
             StringBuilder sb = new StringBuilder();
 
-            var process = Process.Start(pi);
-
+            Process process;
+            try
+            {
+                process = Process.Start(pi);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(
+                    "Couldn't start PanDoc. Most likely Pandoc is not installed and not registered on the global path.\n" +
+                    " Make sure you install it before running this addin.\n" +
+                    " Error Info: " + ex.GetBaseException().Message);
+            }
+            
             Output = process.StandardOutput.ReadToEnd();
             ErrorOutput = process.StandardError.ReadToEnd();
 

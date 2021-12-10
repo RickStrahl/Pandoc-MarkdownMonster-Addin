@@ -131,9 +131,7 @@ namespace PanDocMarkdownParserAddin
 
         private void ToolButtonRunConfiguration_Click(object sender, RoutedEventArgs e)
         {
-            RunConfiguration();
-
-            
+            RunConfiguration().FireAndForget();
         }
 
         private void ToolButtonPandocFormats_Click(object sender, RoutedEventArgs e)
@@ -243,7 +241,7 @@ namespace PanDocMarkdownParserAddin
         private void ListCommands_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return || e.Key == Key.Space)
-                RunConfiguration();
+                RunConfiguration().FireAndForget();
         }
 
         private void ListCommands_SelectionChanged(object sender, SelectionChangedEventArgs e)

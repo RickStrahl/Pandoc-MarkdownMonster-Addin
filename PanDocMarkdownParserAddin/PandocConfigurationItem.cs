@@ -117,7 +117,7 @@ namespace PanDocMarkdownParserAddin
             {
                 File.Delete(outputFile);
             }
-            catch(Exception ex)
+            catch
             {
                 return (false, $"Unable to delete {outputFile}: Most likely the file is open and can't be overwritten. Please close the file.");
             }
