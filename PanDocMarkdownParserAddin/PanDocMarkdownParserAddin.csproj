@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>0.3.27</Version>
+    <Version>0.3.28</Version>
     <TargetFramework>net472</TargetFramework>
     <UseWPF>true</UseWPF>
 
@@ -26,7 +26,7 @@
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.1.7">
+    <PackageReference Include="Westwind.Utilities" Version="3.1.19">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
   </ItemGroup>
@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <Reference Include="c:\projects\MarkdownMonsterCode\MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x64\MarkdownMonster.exe">
+    <Reference Include="\projects\MarkdownMonsterCode\MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x64\MarkdownMonster.exe">
       <Private>false</Private>
     </Reference>
   </ItemGroup>
