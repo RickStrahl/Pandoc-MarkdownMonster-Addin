@@ -8,8 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
-using FontAwesome.WPF;
+using FontAwesome6;
+using FontAwesome6.Shared.Extensions;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
@@ -231,7 +231,7 @@ namespace PanDocMarkdownParserAddin
                 {
                     TextConsole.Text = ex.Message;
                     ShowStatus("Error executing Pandoc configuration.", 8000);
-                    SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
+                    SetStatusIcon(EFontAwesomeIcon.Solid_TriangleExclamation, Colors.Gold);
                 }
 
             }
@@ -281,7 +281,7 @@ namespace PanDocMarkdownParserAddin
         /// <param name="icon"></param>
         /// <param name="color"></param>
         /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
+        public void SetStatusIcon(EFontAwesomeIcon icon, Color color, bool spin = false)
         {
             StatusIcon.Icon = icon;
             StatusIcon.Foreground = new SolidColorBrush(color);
@@ -295,8 +295,8 @@ namespace PanDocMarkdownParserAddin
         /// </summary>
         public void SetStatusIcon()
         {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
+            StatusIcon.Icon = EFontAwesomeIcon.Solid_Circle;
+            StatusIcon.Foreground = new SolidColorBrush(Colors.ForestGreen);
             StatusIcon.Spin = false;
             StatusIcon.SpinDuration = 0;
             StatusIcon.StopSpin();

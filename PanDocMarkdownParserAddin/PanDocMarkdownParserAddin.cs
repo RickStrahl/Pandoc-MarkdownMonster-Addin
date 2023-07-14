@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using FontAwesome.WPF;
+using FontAwesome6;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
@@ -28,7 +28,7 @@ namespace PanDocMarkdownParserAddin
 
                 // if an icon is specified it shows on the toolbar
                 // if not the add-in only shows in the add-ins menu
-                FontawesomeIcon = FontAwesomeIcon.Exchange,
+                FontawesomeIcon = EFontAwesomeIcon.Solid_ArrowRightArrowLeft,
             };
             menuItem.IconImageSource = new ImageSourceConverter()
                 .ConvertFromString("pack://application:,,,/PanDocMarkdownParserAddin;component/icon_22.png") as ImageSource;
@@ -37,7 +37,7 @@ namespace PanDocMarkdownParserAddin
             //menuItem.ExecuteConfiguration = null;
 
             // Must add the menu to the collection to display menu and toolbar items            
-            this.MenuItems.Add(menuItem);
+            MenuItems.Add(menuItem);
 
             return Task.CompletedTask;
         }
