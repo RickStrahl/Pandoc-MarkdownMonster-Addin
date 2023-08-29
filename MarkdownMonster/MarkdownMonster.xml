@@ -636,6 +636,11 @@
             MainWindow
             </summary>
         </member>
+        <member name="P:MarkdownMonster.MainWindow.IsClosed">
+            <summary>
+            Determines if the main window was closed
+            </summary>
+        </member>
         <member name="P:MarkdownMonster.MainWindow.PreviewBrowser">
             <summary>
             Manages the Preview Rendering in a WebBrowser Control
@@ -871,7 +876,7 @@
         </member>
         <member name="M:MarkdownMonster.MainWindow.SyncFolderBrowser">
             <summary>
-            Syncs the folder browser to the active document
+            Syncs the fileOrFolder browser to the active document
             </summary>
         </member>
         <member name="F:MarkdownMonster.MainWindow.batchTabAction">
@@ -998,7 +1003,7 @@
             Shows or hides the File Browser
             </summary>
             <param name="hide"></param>
-            <param name="folder">Folder or File. If File the file will be selected in the folder</param>
+            <param name="folder">Folder or File. If File the file will be selected in the fileOrFolder</param>
         </member>
         <member name="M:MarkdownMonster.MainWindow.LoadPreviewBrowser">
             <summary>
@@ -1206,6 +1211,19 @@
             </summary>
             <param name="value"></param>
             <returns>Int value or Int.MinValue if not absolute</returns>
+        </member>
+        <member name="T:MarkdownMonster.Windows.Window1">
+            <summary>
+            Interaction logic for Window1.xaml
+            </summary>
+            <summary>
+            Window1
+            </summary>
+        </member>
+        <member name="M:MarkdownMonster.Windows.Window1.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
         </member>
         <member name="T:MarkdownMonster.Windows.About">
             <summary>
@@ -3441,6 +3459,11 @@
             overridden after CTOR has loaded.
             </summary>
         </member>
+        <member name="P:MarkdownMonster.Windows.StatusBarHelper.FlashIconSizeMultiplier">
+            <summary>
+            Determines how much bigger the icon is made when it is 'flashed'
+            </summary>
+        </member>
         <member name="M:MarkdownMonster.Windows.StatusBarHelper.ShowStatusError(System.String,System.Int32,FontAwesome6.EFontAwesomeIcon,System.Windows.Media.Color,System.Boolean)">
             <summary>
             Displays an error message using common defaults for a timeout milliseconds
@@ -4266,19 +4289,6 @@
             InitializeComponent
             </summary>
         </member>
-        <member name="T:MarkdownMonster.Window1">
-            <summary>
-            Interaction logic for Window1.xaml
-            </summary>
-            <summary>
-            Window1
-            </summary>
-        </member>
-        <member name="M:MarkdownMonster.Window1.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
         <member name="T:MarkdownMonster.Favorites.FavoriteItem">
             <summary>
             An individual Favorite item
@@ -4891,14 +4901,6 @@
             <summary>
             Returns whether or not the current computer is a server or not.
             </summary>
-        </member>
-        <member name="M:MarkdownMonster.Utilities.mmWindowsUtils.GetDotnetVersion">
-            <summary>
-            Returns the .NET framework version installed on the machine
-            as a string  of 4.x.y version
-            </summary>
-            <remarks>Minimum version supported is 4.0</remarks>
-            <returns></returns>
         </member>
         <member name="M:MarkdownMonster.Utilities.mmWindowsUtils.GetWindowsVersion">
             <summary>
@@ -5883,10 +5885,10 @@
         </member>
         <member name="M:MarkdownMonster.AppCommands.OpenFolderBrowser">
              <summary>
-             Opens the folder browser. If parameter is passed that file is opened in the
-             folder browser. if no document is open the the active document is opened
+             Opens the fileOrFolder browser. If parameter is passed that file is opened in the
+             fileOrFolder browser. if no document is open the the active document is opened
             
-             Pass `NoOpen' to bypass opening of a document in the folder browser
+             Pass `NoOpen' to bypass opening of a document in the fileOrFolder browser
              and just open at the last location.
              </summary>
         </member>
@@ -6080,11 +6082,15 @@
             Determines how many items to display in the recent documents list
             </summary>
         </member>
-        <member name="P:MarkdownMonster.ApplicationConfiguration.RememberLastDocumentsLength">
-            <summary>
-            Determines how many of the last documents that were open are
-            reopened next time you start Markdown Monster
-            </summary>
+        <member name="P:MarkdownMonster.ApplicationConfiguration.RememberNumberOfLastDocuments">
+             <summary>
+             Determines how many of the last documents that were open
+             when Markdown Monster was last shut down are re-opened
+             when restarted. 0 means no documents are opened.
+            
+             Documents here are opened in addition to any documents
+             opened via command line or from Explorer.
+             </summary>
         </member>
         <member name="P:MarkdownMonster.ApplicationConfiguration.EditorExtensionMappings">
              <summary>
@@ -7909,7 +7915,7 @@
             <param name="filename"></param>
             <returns></returns>
         </member>
-        <member name="M:MarkdownMonster.MarkdownDocument.RenderHtml(System.String,System.Boolean,System.Boolean)">
+        <member name="M:MarkdownMonster.MarkdownDocument.RenderHtml(System.String,System.Boolean,System.Boolean,MarkdownMonster.IMarkdownParser)">
             <summary>
             Renders markdown of the current document text into raw HTML
             </summary>
@@ -7918,7 +7924,7 @@
             <param name="noBanner"></param>
             <returns></returns>
         </member>
-        <member name="M:MarkdownMonster.MarkdownDocument.RenderHtmlToFile(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:MarkdownMonster.MarkdownDocument.RenderHtmlToFile(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,System.Boolean,MarkdownMonster.IMarkdownParser)">
             <summary>
             Renders markdown from the current document using the appropriate Theme
             Template and writing an output file. Options allow customization and
@@ -8817,6 +8823,13 @@
             instance of the Markdown parser. Hooks up custom processing.
             </summary>
         </member>
+        <member name="M:MarkdownMonster.MarkdownParserMarkdig.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="usePragmaLines">If set adds line number references into the HTML output</param>
+            <param name="noSettingsOverrides">If set doesn't use Markdown Monster Configuration Settings</param>
+        </member>
         <member name="M:MarkdownMonster.MarkdownParserMarkdig.Parse(System.String)">
             <summary>
             Parses the actual markdown down to html
@@ -9378,6 +9391,14 @@
             </summary>
             <param name="exename"></param>
         </member>
+        <member name="M:MarkdownMonster.mmFileUtils.EnableWindowsLongPaths(System.Boolean)">
+             <summary>
+             Enables Windows Long Paths for Windows globally on Windows 10+
+            
+             Has to be run as Administrator!
+             </summary>
+             <param name="uninstall"></param>
+        </member>
         <member name="M:MarkdownMonster.mmFileUtils.MoveToRecycleBin(System.String)">
             <summary>
             Uses the Windows Shell API to delete files and put them into the recycle bin
@@ -9585,6 +9606,36 @@
         <member name="T:HtmlSearchValue">
             <summary>
             Structure that can be used to try and find a location in the browser
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
             </summary>
         </member>
     </members>

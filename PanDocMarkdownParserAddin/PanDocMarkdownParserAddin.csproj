@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>0.4</Version>
+		<Version>0.4.1</Version>
 		<TargetFramework>net70-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 
@@ -12,8 +12,8 @@
 		<Company>West Wind Technologies</Company>
 		<Copyright>West Wind Technologies, 2016-2023</Copyright>
 		<Description>Markdown Monster PanDoc Markdown Parsing and Pandoc Export Support Addin.</Description>
-
-		<OutputPath>$(SolutionDir)MarkdownMonster/bin/$(Configuration)/$(TargetFramework)/Addins/Weblog</OutputPath>
+		
+		<OutputPath>$(AppData)\Markdown Monster\Addins\PandocMarkdownParser</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
 		<Authors>Rick Strahl, West Wind Technologies</Authors>
@@ -40,7 +40,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="MahApps.Metro" Version="2.4.10" />
-		<PackageReference Include="Westwind.Utilities" Version="4.0.2" />
+		<PackageReference Include="Westwind.Utilities" Version="4.0.5" />
 		<PackageReference Include="FontAwesome6.Pro.Fonts" Version="2.5.1" />
 	</ItemGroup>
 
@@ -55,10 +55,5 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>embedded</DebugType>
 		<DebugSymbols>true</DebugSymbols>
-		<OutputPath>C:\Users\rstrahl\AppData\Roaming\Markdown Monster\Addins\PandocMarkdownParser</OutputPath>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath>C:\Users\rstrahl\AppData\Roaming\Markdown Monster\Addins\PandocMarkdownParser</OutputPath>
-	</PropertyGroup>
-
 </Project>
