@@ -415,13 +415,6 @@
             <param name="pos"></param>
             <returns></returns>
         </member>
-        <member name="M:MarkdownMonster.Controls.ContextMenus.EditorContextMenu.SelectHtmlTableMarkdown(System.Boolean)">
-            <summary>
-            Attempts to select an HTML table in the editor and returns
-            the table HTML as a string
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:MarkdownMonster.Controls.ContextMenus.FolderBrowserContextMenu">
             <summary>
             Class that handles display and execution of the Tab Context Menu
@@ -998,7 +991,7 @@
             </summary>
             <param name="hide"></param>
         </member>
-        <member name="M:MarkdownMonster.MainWindow.ShowFolderBrowser(System.Boolean,System.String)">
+        <member name="M:MarkdownMonster.MainWindow.ShowFolderBrowser(System.Boolean,System.String,System.Boolean)">
             <summary>
             Shows or hides the File Browser
             </summary>
@@ -1204,6 +1197,15 @@
              sizing of the splitter pane.
              </summary>
         </member>
+        <member name="M:MarkdownMonster.Windows.MainWindowLayoutModel.ToggleEditorPreviewMode(System.Nullable{System.Boolean})">
+             <summary>
+             Toggles Preview Zoom in the editor pane which makes the editor pane display only the
+             preview, or back to split view.
+            
+             You can also pass a value in to force the preview to
+             </summary>
+             <returns></returns>
+        </member>
         <member name="M:MarkdownMonster.Windows.GridLengthHelper.ParseInt(System.Windows.GridLength)">
             <summary>
             Converts a GridLength to an Int Value checking for
@@ -1211,19 +1213,6 @@
             </summary>
             <param name="value"></param>
             <returns>Int value or Int.MinValue if not absolute</returns>
-        </member>
-        <member name="T:MarkdownMonster.Windows.Window1">
-            <summary>
-            Interaction logic for Window1.xaml
-            </summary>
-            <summary>
-            Window1
-            </summary>
-        </member>
-        <member name="M:MarkdownMonster.Windows.Window1.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
         </member>
         <member name="T:MarkdownMonster.Windows.About">
             <summary>
@@ -1252,19 +1241,6 @@
             </summary>
         </member>
         <member name="M:MarkdownMonster.Windows.AddinManagerWindow.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
-        <member name="T:MarkdownMonster.Windows.BrowserDialog">
-            <summary>
-            Interaction logic for BrowserDialog.xaml
-            </summary>
-            <summary>
-            BrowserDialog
-            </summary>
-        </member>
-        <member name="M:MarkdownMonster.Windows.BrowserDialog.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>
@@ -1546,10 +1522,14 @@
             </summary>
         </member>
         <member name="M:MarkdownMonster.Windows.EditorWebViewDotnetInterop.EmbedDroppedFileAsImage(System.String,System.Boolean)">
-            <summary>
-            Embeds a dropped file as an image. If not an image no action is taken
-            </summary>
-            <param name="file"></param>
+             <summary>
+             Embeds a dropped file as an image. If not an image no action is taken
+            
+             Also allows manually sending a file with DroppedFile.ToString() as the
+             file parameter.
+             </summary>
+             <param name="file">File name or a JSON serialized DroppedFile object</param>
+             <param name="copyNotMove">If true file is copied and not moved (ie. original file stays)</param>
         </member>
         <member name="M:MarkdownMonster.Windows.EditorWebViewDotnetInterop.GetKeyBindingsJson">
             <summary>
@@ -1711,10 +1691,17 @@
              <returns>JSON string of all settings set by the editor</returns>
         </member>
         <member name="M:MarkdownMonster.Windows.EditorWebViewJavaScriptInterop.SetValue(System.String,System.Object,System.Boolean)">
-            <summary>
-            Set the value of the Editor
-            </summary>
-            <param name="value"></param>
+             <summary>
+             Set the value of the Editor
+            
+             IMPORTANT: In some instances when a new Tab is opened especially,
+             it may be better to set MarkdownDocument.CurrentText directly,
+             rather than calling this method. Direct assignment sets IsDirty()
+             and delay updates the preview while this method only updates the
+             content in the editor and requires some editor action to update
+             the previewer
+             </summary>
+             <param name="value"></param>
         </member>
         <member name="M:MarkdownMonster.Windows.EditorWebViewJavaScriptInterop.GetValue">
             <summary>
@@ -1997,6 +1984,11 @@
             StatusText Name Field
             </summary>
         </member>
+        <member name="F:MarkdownMonster.Windows.EmojiWindow.StatusRowCount">
+            <summary>
+            StatusRowCount Name Field
+            </summary>
+        </member>
         <member name="M:MarkdownMonster.Windows.EmojiWindow.InitializeComponent">
             <summary>
             InitializeComponent
@@ -2212,23 +2204,23 @@
              <param name="selected"></param>
              <returns></returns>
         </member>
-        <member name="M:MarkdownMonster.Windows.FolderBrowerSidebar.TreeFolderBrowser_MouseMove(System.Object,System.Windows.Input.MouseEventArgs)">
-            <summary>
-            Handle Drag operation by checking for mouse move operations.
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-        </member>
         <member name="M:MarkdownMonster.Windows.FolderBrowerSidebar.TreeViewItem_MouseDoubleClick(System.Object,System.Windows.Input.MouseButtonEventArgs)">
             <summary>
             Used to keep track of mouse position and timing to deal with drag and drop operations
             </summary>
             <param name="sender"></param>
-            <param name="e"></param>
+            <param name="e"></param>   
         </member>
         <member name="M:MarkdownMonster.Windows.FolderBrowerSidebar.TreeViewItem_PreviewKeyDown(System.Object,System.Windows.Input.KeyEventArgs)">
             <summary>
             Handle certain keys that aren't triggering in KeyDown
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MarkdownMonster.Windows.FolderBrowerSidebar.TreeFolderBrowser_MouseMove(System.Object,System.Windows.Input.MouseEventArgs)">
+            <summary>
+            Handle Drag operation by checking for mouse move operations.
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
@@ -2428,179 +2420,6 @@
             InitializeComponent
             </summary>
         </member>
-        <member name="T:MarkdownMonster.Windows.InvertedBooleanConverter">
-            <summary>
-            Value Converter used to the reverse boolean value of a property (ie. !value)
-            </summary>
-        </member>
-        <member name="T:MarkdownMonster.Windows.BooleanToCollapsedVisibilityConverter">
-            <summary>
-            BUILT INTO WPF
-            Converter used to bind a boolean to Visibility
-            </summary>
-        </member>
-        <member name="T:MarkdownMonster.Windows.ValueConverterGroup">
-            <summary>
-            Allows binding multiple ValueConverters as a group
-            
-            https://web.archive.org/web/20130622171857/http://www.garethevans.com/linking-multiple-value-converters-in-wpf-and-silverlight
-            </summary>
-        </member>
-        <member name="T:MarkdownMonster.Windows.UriToCachedImageConverter">
-            <summary>
-            Caches bitmap sources loaded from files from disk or Url and reuses them.
-            Use for repeated items like treeviews lists icons.
-            </summary>
-        </member>
-        <member name="T:MarkdownMonster.Windows.WindowUtilities">
-            <summary>
-            WPF Helpers for MM
-            </summary>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.CenterWindow(System.Windows.Window)">
-            <summary>
-             Centers a WPF window on the screen. Considers DPI settings
-            </summary>
-            <param name="window"></param>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.EnsureWindowIsVisible(System.Windows.Window)">
-            <summary>
-            Ensures that the window rendered is visible and fitting
-            on the currently active screen.
-            </summary>
-            <param name="window"></param>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.SetForegroundWindow(System.IntPtr)">
-            <summary>
-            Force Window to the foreground. This seems to be the only reliable way
-            to get MM to become UI active from within MM when activated externally.
-            </summary>
-            <param name="hWnd">IntPtr of the Window Handle to activate</param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.ActivateWindow(System.Windows.Window)">
-            <summary>
-            Activates a WPF window even if the window is activated on a separate thread
-            </summary>
-            <param name="window"></param>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.SetPerMonitorDpiAwareness(MarkdownMonster.Windows.ProcessDpiAwareness)">
-            <summary>
-            IMPORTANT: This only works if this is called in the immediate startup code
-            of the application. For WPF this means `static App() { }`.
-            </summary>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.GetScreenDimensions(System.Windows.Window)">
-            <summary>
-            Returns the active screen's size in pixels
-            </summary>
-            <param name="window"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.WindowToHwnd(System.Windows.Window)">
-            <summary>
-            Returns IntPtr for an HWND from  WPF Window object
-            </summary>
-            <param name="window"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.BitmapSourceToBitmap(System.Windows.Media.Imaging.BitmapSource)">
-            <summary>
-            Converts a bitmap source to a bitmap
-            Make sure to dispose the bitmap
-            </summary>
-            <param name="source"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.BrushToColor(System.Windows.Media.Brush)">
-            <summary>
-            Converts a WPF Color Brush to a System.Drawing Color
-            Often needed for interop
-            </summary>
-            <param name="brush"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.MakeWindowCompletelyTransparent(System.IntPtr)">
-             <summary>
-             Call this to make a window completely click through including all controls
-             on it.
-             </summary>
-             <example>
-             ///
-             protected override void OnSourceInitialized(EventArgs e)
-             {
-                base.OnSourceInitialized(e);
-                var hwnd = new WindowInteropHelper(this).Handle;
-                WindowsServices.SetWindowExTransparent(hwnd);
-             }
-            </example>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.InvalidateMenuCommands(System.Windows.Controls.Menu)">
-            <summary>
-            Invalidates a menu control and all of its subitems
-            by checking Command.IsEnabled property if a command exists
-            </summary>
-            <param name="menu"></param>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.InvalidateSubmenuCommands(System.Windows.Controls.MenuItem)">
-            <summary>
-            
-            </summary>
-            <param name="menuItem"></param>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.DoEvents(System.Windows.Threading.Dispatcher,System.Windows.Threading.DispatcherPriority)">
-            <summary>
-            Idle loop to let events fire in the UI
-            
-            Use SPARINGLY or not at all if there is a better way
-            but there are a few places where this is required.
-            </summary>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.IsDispatcherDisabled(System.Windows.Threading.Dispatcher)">
-            <summary>
-            Check to see if the Dispatcher is currently not active which can happen internally
-            in WPF rendering and cause unexpected exceptions. Check for those edge cases
-            </summary>
-            <param name="dispatcher"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.FixFocus(System.Windows.Window,System.Windows.Controls.Control)">
-            <summary>
-            Forces lost focus on the active control in a Window to force the selected control
-            to databind.
-            Typical scenario: Toolbar clicks (which don't cause a focus change) don't see
-            latest control state of the active control because it doesn't know focus has
-            changed. This forces the active control to unbind       
-            </summary>
-            <param name="window">Active window</param>
-            <param name="control">Control to force focus to briefly to force active control to bind</param>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.FindVisualChild``1(System.Windows.DependencyObject)">
-            <summary>
-            Finds a particular type of control in the children of a top level control
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="obj"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.FindAnchestor``1(System.Windows.DependencyObject)">
-            <summary>
-            Finds a type of element in the parent chain of an element
-            </summary>
-            <typeparam name="T">Type of Element to find</typeparam>
-            <param name="current">start element</param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.Windows.WindowUtilities.GetNestedTreeviewItem(System.Object,System.Windows.Controls.ItemsControl)">
-            <summary>
-            Retrieves a nested TreeViewItem by walking the hierarchy.
-            Specify a root treeview or treeviewitem and it then walks
-            the hierarchy to find the item
-            </summary>
-            <param name="item">Item to find</param>
-            <param name="treeItem">Parent item to start search from</param>
-            <returns></returns>
-        </member>
         <member name="P:MarkdownMonster.Windows.InputBox.InputText">
             <summary>
             Input text entered by the user. Can be set on entry
@@ -2720,6 +2539,11 @@
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
+        </member>
+        <member name="F:MarkdownMonster.Windows.PasteHref.StatusText">
+            <summary>
+            StatusText Name Field
+            </summary>
         </member>
         <member name="M:MarkdownMonster.Windows.PasteHref.InitializeComponent">
             <summary>
@@ -3248,6 +3072,13 @@
             <param name="html"></param>
             <returns></returns>
         </member>
+        <member name="M:MarkdownMonster.Windows.TableParser.SelectHtmlTableMarkdown(System.Boolean)">
+            <summary>
+            Attempts to select an HTML table in the editor and returns
+            the table HTML as a string
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:MarkdownMonster.Windows.TableParser.GetColumnInfo(MarkdownMonster.Windows.TableData,MarkdownMonster.Windows.MarkdownTableType)">
             <summary>
             Retrieves information about each of the columns in the table including
@@ -3263,6 +3094,30 @@
             <param name="html"></param>
             <returns></returns>
         </member>
+        <member name="T:MarkdownMonster.Windows.InvertedBooleanConverter">
+            <summary>
+            Value Converter used to the reverse boolean value of a property (ie. !value)
+            </summary>
+        </member>
+        <member name="T:MarkdownMonster.Windows.BooleanToCollapsedVisibilityConverter">
+            <summary>
+            BUILT INTO WPF
+            Converter used to bind a boolean to Visibility
+            </summary>
+        </member>
+        <member name="T:MarkdownMonster.Windows.ValueConverterGroup">
+            <summary>
+            Allows binding multiple ValueConverters as a group
+            
+            https://web.archive.org/web/20130622171857/http://www.garethevans.com/linking-multiple-value-converters-in-wpf-and-silverlight
+            </summary>
+        </member>
+        <member name="T:MarkdownMonster.Windows.UriToCachedImageConverter">
+            <summary>
+            Caches bitmap sources loaded from files from disk or Url and reuses them.
+            Use for repeated items like treeviews lists icons.
+            </summary>
+        </member>
         <member name="T:MarkdownMonster.Windows.WindowsNotifications">
             <summary>
             Shows a Windows Notification on the Taskbar
@@ -3277,6 +3132,163 @@
             <param name="messageIcon">Fixed toolbar icon for the message</param>
             <param name="timeout">Optional timeout - defaults to statusbar timeout in config</param>
             <param name="titleIcon">Titlebar icon</param>
+        </member>
+        <member name="T:MarkdownMonster.Windows.WindowUtilities">
+            <summary>
+            WPF Helpers for MM
+            </summary>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.CenterWindow(System.Windows.Window)">
+            <summary>
+             Centers a WPF window on the screen. Considers DPI settings
+            </summary>
+            <param name="window"></param>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.EnsureWindowIsVisible(System.Windows.Window)">
+            <summary>
+            Ensures that the window rendered is visible and fitting
+            on the currently active screen.
+            </summary>
+            <param name="window"></param>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.SetForegroundWindow(System.IntPtr)">
+            <summary>
+            Force Window to the foreground. This seems to be the only reliable way
+            to get MM to become UI active from within MM when activated externally.
+            </summary>
+            <param name="hWnd">IntPtr of the Window Handle to activate</param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.ActivateWindow(System.Windows.Window)">
+            <summary>
+            Activates a WPF window even if the window is activated on a separate thread
+            </summary>
+            <param name="window"></param>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.SetPerMonitorDpiAwareness(MarkdownMonster.Windows.ProcessDpiAwareness)">
+            <summary>
+            IMPORTANT: This only works if this is called in the immediate startup code
+            of the application. For WPF this means `static App() { }`.
+            </summary>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.GetScreenDimensions(System.Windows.Window)">
+            <summary>
+            Returns the active screen's size in pixels
+            </summary>
+            <param name="window"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.WindowToHwnd(System.Windows.Window)">
+            <summary>
+            Returns IntPtr for an HWND from  WPF Window object
+            </summary>
+            <param name="window"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.BitmapSourceToBitmap(System.Windows.Media.Imaging.BitmapSource)">
+            <summary>
+            Converts a bitmap source to a bitmap
+            Make sure to dispose the bitmap
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.BitmapToBitmapSource(System.Drawing.Bitmap)">
+            <summary>
+            Source:
+            https://stackoverflow.com/a/30729291
+            </summary>
+            <param name="bmp">Initial bitmap</param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.BrushToColor(System.Windows.Media.Brush)">
+            <summary>
+            Converts a WPF Color Brush to a System.Drawing Color
+            Often needed for interop
+            </summary>
+            <param name="brush"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.MakeWindowCompletelyTransparent(System.IntPtr)">
+             <summary>
+             Call this to make a window completely click through including all controls
+             on it.
+             </summary>
+             <example>
+             ///
+             protected override void OnSourceInitialized(EventArgs e)
+             {
+                base.OnSourceInitialized(e);
+                var hwnd = new WindowInteropHelper(this).Handle;
+                WindowsServices.SetWindowExTransparent(hwnd);
+             }
+            </example>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.InvalidateMenuCommands(System.Windows.Controls.Menu)">
+            <summary>
+            Invalidates a menu control and all of its subitems
+            by checking Command.IsEnabled property if a command exists
+            </summary>
+            <param name="menu"></param>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.InvalidateSubmenuCommands(System.Windows.Controls.MenuItem)">
+            <summary>
+            
+            </summary>
+            <param name="menuItem"></param>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.DoEvents(System.Windows.Threading.Dispatcher,System.Windows.Threading.DispatcherPriority)">
+            <summary>
+            Idle loop to let events fire in the UI
+            
+            Use SPARINGLY or not at all if there is a better way
+            but there are a few places where this is required.
+            </summary>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.IsDispatcherDisabled(System.Windows.Threading.Dispatcher)">
+            <summary>
+            Check to see if the Dispatcher is currently not active which can happen internally
+            in WPF rendering and cause unexpected exceptions. Check for those edge cases
+            </summary>
+            <param name="dispatcher"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.FixFocus(System.Windows.Window,System.Windows.Controls.Control)">
+            <summary>
+            Forces lost focus on the active control in a Window to force the selected control
+            to databind.
+            Typical scenario: Toolbar clicks (which don't cause a focus change) don't see
+            latest control state of the active control because it doesn't know focus has
+            changed. This forces the active control to unbind       
+            </summary>
+            <param name="window">Active window</param>
+            <param name="control">Control to force focus to briefly to force active control to bind</param>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.FindVisualChild``1(System.Windows.DependencyObject)">
+            <summary>
+            Finds a particular type of control in the children of a top level control
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.FindAnchestor``1(System.Windows.DependencyObject)">
+            <summary>
+            Finds a type of element in the parent chain of an element
+            </summary>
+            <typeparam name="T">Type of Element to find</typeparam>
+            <param name="current">start element</param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Windows.WindowUtilities.GetNestedTreeviewItem(System.Object,System.Windows.Controls.ItemsControl)">
+            <summary>
+            Retrieves a nested TreeViewItem by walking the hierarchy.
+            Specify a root treeview or treeviewitem and it then walks
+            the hierarchy to find the item
+            </summary>
+            <param name="item">Item to find</param>
+            <param name="treeItem">Parent item to start search from</param>
+            <returns></returns>
         </member>
         <member name="T:MarkdownMonster.Windows.DebounceDispatcher">
             <summary>
@@ -3487,7 +3499,7 @@
             Displays an Progress message using common defaults including a spinning icon
             </summary>
             <param name="message">Message to display</param>
-            <param name="timeout">optional timeout</param>
+            <param name="timeout">optional timeout for reset to status - 0 never times out</param>
             <param name="icon">optional icon (warning)</param>
             <param name="color">optional color (firebrick)</param>
             <param name="spin"></param>
@@ -4132,7 +4144,7 @@
             to normalized linefeeds for rendering, but if you test locally make sure to pre-format the args.Markdown
             </remarks>
         </member>
-        <member name="T:MarkdownMonster.RenderExtensions.IRenderExtension">
+        <member name="T:MarkdownMonster.RenderExtensions.IMarkdownRenderExtension">
              <summary>
              Interface implemented for RenderExtensions that allow modification
              of the inbound Markdown before rendering or outbound HTML after
@@ -4144,7 +4156,12 @@
              the `Addin.OnApplicationStart()` method.
              </summary>
         </member>
-        <member name="M:MarkdownMonster.RenderExtensions.IRenderExtension.BeforeMarkdownRendered(MarkdownMonster.RenderExtensions.ModifyMarkdownArguments)">
+        <member name="P:MarkdownMonster.RenderExtensions.IMarkdownRenderExtension.Name">
+            <summary>
+            Name of the extension. This is used to identify the extension
+            </summary>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.IMarkdownRenderExtension.BeforeMarkdownRendered(MarkdownMonster.RenderExtensions.ModifyMarkdownArguments)">
              <summary>
              Method that is fired on the inbound pass before the document is rendered and that
              allows you to modify the *markdown* before it is sent out for rendering.
@@ -4155,7 +4172,7 @@
               and also see the original document.
              </param>
         </member>
-        <member name="M:MarkdownMonster.RenderExtensions.IRenderExtension.AfterMarkdownRendered(MarkdownMonster.RenderExtensions.ModifyHtmlAndHeadersArguments)">
+        <member name="M:MarkdownMonster.RenderExtensions.IMarkdownRenderExtension.AfterMarkdownRendered(MarkdownMonster.RenderExtensions.ModifyHtmlAndHeadersArguments)">
              <summary>
              Fired after Markdown has been converted to HTML and allows you to modify
              the rendered HTML fragment generated by the markdown. Note that this
@@ -4166,15 +4183,92 @@
              <param name="args">Arguments that let you modify the generated HTML before it's returned or written to disk
              </param>
         </member>
-        <member name="M:MarkdownMonster.RenderExtensions.IRenderExtension.AfterDocumentRendered(MarkdownMonster.RenderExtensions.ModifyHtmlArguments)">
+        <member name="M:MarkdownMonster.RenderExtensions.IMarkdownRenderExtension.AfterDocumentRendered(MarkdownMonster.RenderExtensions.ModifyHtmlArguments)">
              <summary>
              Fired after the document has been rendered to a complete HTML document
-             using a Preview Template. Input HTML contains the final full HTML document.
+             using a Preview Template. Input HTML contains the final complete HTML document
+             including any custom document headers.
             
              Note this is **not fired** if using just raw Markdown rendering 
              </summary>
              <param name="args">Arguments that let you modify HTML and Headers and
              let you view original Markdown and Document.</param>
+        </member>
+        <member name="T:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager">
+            <summary>
+            Manages any render extensions for the HTML
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.Current">
+            <summary>
+            Global application instance of the Extensions Manager
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.RenderExtensions">
+            <summary>
+            Active Render Extensions. You can add your own extensions on application startup
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.Item(System.String)">
+            <summary>
+            Returns a RenderExtension by name
+            </summary>
+            <param name="renderExtensionName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.Item(MarkdownMonster.RenderExtensions.IMarkdownRenderExtension)">
+            <summary>
+            Returns a RenderExtension by name
+            </summary>
+            <param name="renderExtensionName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.GetRenderExtensions">
+            <summary>
+            Return render extensions as a read-only collection
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.AddRenderExtension(MarkdownMonster.RenderExtensions.IMarkdownRenderExtension)">
+            <summary>
+            Adds a new render extension to the list of render extensions   
+            </summary>
+            <param name="renderExtension"></param>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.AddRenderExtensions(System.Collections.Generic.IEnumerable{MarkdownMonster.RenderExtensions.IMarkdownRenderExtension})">
+            <summary>
+            Add multiple RenderExtensions
+            </summary>
+            <param name="renderExtensions"></param>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.RemoveRenderExtension(MarkdownMonster.RenderExtensions.IMarkdownRenderExtension)">
+            <summary>
+            Removes a render extension
+            </summary>
+            <param name="renderExtension"></param>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.ProcessAllBeforeMarkdownRenderedHooks(MarkdownMonster.RenderExtensions.ModifyMarkdownArguments)">
+            <summary>
+            Process all BeforeRenderMarkdown Extensions
+            </summary>
+            <param name="markdown"></param>
+            <param name="document"></param>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.ProcessAllAfterMarkdownRenderedHooks(MarkdownMonster.RenderExtensions.ModifyHtmlAndHeadersArguments)">
+             <summary>
+             Processed after Markdown has been rendered into HTML, but not been
+             merged into the template.
+            
+             You can modify the HTML and also add headers to be rendered into the HEAD
+             of the template here.
+             </summary>
+             <param name="args"></param>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.MarkdownRenderExtensionsManager.Add(MarkdownMonster.RenderExtensions.IMarkdownRenderExtension)">
+            <summary>
+            Adds a new Render Extension to the list of active extensions
+            </summary>
+            <param name="markdownRenderExtension"></param>
         </member>
         <member name="T:MarkdownMonster.RenderExtensions.MathRenderExtension">
             <summary>
@@ -4221,37 +4315,23 @@
             </summary>
             <param name="args"></param>
         </member>
-        <member name="T:MarkdownMonster.RenderExtensions.RenderExtensionsManager">
+        <member name="T:MarkdownMonster.RenderExtensions.PlantUmlRenderExtension">
             <summary>
-            Manages any render extensions for the HTML
+            Renders PlantUML diagrams using plantuml code block syntax
+            into a rendered image in preview and rendered output.
             </summary>
         </member>
-        <member name="P:MarkdownMonster.RenderExtensions.RenderExtensionsManager.Current">
+        <member name="M:MarkdownMonster.RenderExtensions.PlantUmlRenderExtension.BeforeMarkdownRendered(MarkdownMonster.RenderExtensions.ModifyMarkdownArguments)">
             <summary>
-            Global application instance of the Extensions Manager
+            Fix up input Markdown before it's rendered by converting plantuml codeblocks
+            into image elements with a link wrapper to the PlantUML server editor.
             </summary>
+            <param name="args"></param>
         </member>
-        <member name="P:MarkdownMonster.RenderExtensions.RenderExtensionsManager.RenderExtensions">
+        <member name="T:MarkdownMonster.RenderExtensions.PlantUmlTextEncoding">
             <summary>
-            Active Render Extensions. You can add your own extensions on application startup
+            Provides methods for encoding PlantUML text, as described at http://plantuml.com/text-encoding
             </summary>
-        </member>
-        <member name="M:MarkdownMonster.RenderExtensions.RenderExtensionsManager.ProcessAllBeforeMarkdownRenderedHooks(MarkdownMonster.RenderExtensions.ModifyMarkdownArguments)">
-            <summary>
-            Process all BeforeRenderMarkdown Extensions
-            </summary>
-            <param name="markdown"></param>
-            <param name="document"></param>
-        </member>
-        <member name="M:MarkdownMonster.RenderExtensions.RenderExtensionsManager.ProcessAllAfterMarkdownRenderedHooks(MarkdownMonster.RenderExtensions.ModifyHtmlAndHeadersArguments)">
-             <summary>
-             Processed after Markdown has been rendered into HTML, but not been
-             merged into the template.
-            
-             You can modify the HTML and also add headers to be rendered into the HEAD
-             of the template here.
-             </summary>
-             <param name="args"></param>
         </member>
         <member name="T:MarkdownMonster.RenderExtensions.RightToLeftRenderExtension">
             <summary>
@@ -4276,18 +4356,31 @@
             </summary>
             <param name="args"></param>
         </member>
-        <member name="T:MarkdownMonster.UserControl1">
+        <member name="M:MarkdownMonster.RenderExtensions.TocRenderExtension.BeforeMarkdownRendered(MarkdownMonster.RenderExtensions.ModifyMarkdownArguments)">
             <summary>
-            Interaction logic for UserControl1.xaml
+            Handle Right To Left ACE Editor markdown removal so rendering looks correct
             </summary>
-            <summary>
-            UserControl1
-            </summary>
+            <param name="args"></param>
         </member>
-        <member name="M:MarkdownMonster.UserControl1.InitializeComponent">
+        <member name="M:MarkdownMonster.RenderExtensions.TocRenderExtension.AfterMarkdownRendered(MarkdownMonster.RenderExtensions.ModifyHtmlAndHeadersArguments)">
             <summary>
-            InitializeComponent
+            Nothing to do
             </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.TocRenderExtension.AfterDocumentRendered(MarkdownMonster.RenderExtensions.ModifyHtmlArguments)">
+            <summary>
+            Nothing to do.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:MarkdownMonster.RenderExtensions.TocRenderExtension.CreateDocumentOutline(System.String)">
+            <summary>
+            Creates a Markdown Document Outline from a Markdown Document
+            by walking through the headers.
+            </summary>
+            <param name="md">Original Markdown</param>
+            <returns></returns>
         </member>
         <member name="T:MarkdownMonster.Favorites.FavoriteItem">
             <summary>
@@ -4594,6 +4687,12 @@
             looking at YAML title header or the first `# ` markdown tag
             </summary>
             <param name="markdown"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Utilities.DroppedFileData.ToString">
+            <summary>
+            Returns serialized data of this object
+            </summary>
             <returns></returns>
         </member>
         <member name="T:MarkdownMonster.Utilities.GitHelper">
@@ -4927,14 +5026,14 @@
             Opens a browser with the search term provided in the search Term
             </summary>
             <param name="searchTerm">string to search for - pushed intot he search engine</param>
-            <param name="searchEngineType">duckduckgo,google,bing (any other domain name that can be postfixed with .com)</param>
+            <param name="searchEngineType">duckduckgo,google,brave,bing (any other domain name that can be postfixed with .com)</param>
         </member>
         <member name="M:MarkdownMonster.Utilities.SearchEngine.GetSearchLinks(System.String,MarkdownMonster.Utilities.SearchEngineTypes)">
             <summary>
-            
+            Retrieves a list of search link from the given search engine
             </summary>
-            <param name="searchTerm"></param>
-            <param name="searchEngineType"></param>
+            <param name="searchTerm">Search term to look for</param>
+            <param name="searchEngineType">Only works with BING at this point (raw Html)</param>
             <returns></returns>
         </member>
         <member name="T:MarkdownMonster.Utilities.SpellChecker">
@@ -4980,6 +5079,69 @@
             </summary>
             <param name="language">en-GB, it-IT, ko-KO</param>
             <param name="basePath">The path that dictionaries are downloaded to</param>
+            <returns></returns>
+        </member>
+        <member name="T:MarkdownMonster.Utilities.WindowsUtils">
+            <summary>
+            Windows specific system and information helpers
+            Helper class that provides Windows and .NET Version numbers.    
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.Utilities.WindowsUtils.WinMajorVersion">
+            <summary>
+            Returns the Windows major version number for this computer.
+            based on this: http://stackoverflow.com/questions/21737985/windows-version-in-c-sharp/37716269#37716269
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.Utilities.WindowsUtils.WinMinorVersion">
+            <summary>
+                Returns the Windows minor version number for this computer.
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.Utilities.WindowsUtils.WinBuildVersion">
+            <summary>
+                Returns the Windows minor version number for this computer.
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.Utilities.WindowsUtils.WinBuildLabVersion">
+            <summary>
+                Returns the Windows minor version number for this computer.
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.Utilities.WindowsUtils.IsServer">
+            <summary>
+            Returns whether or not the current computer is a server or not.
+            </summary>
+        </member>
+        <member name="M:MarkdownMonster.Utilities.WindowsUtils.GetDotnetVersion">
+            <summary> 
+            Returns the .NET version installed on the machine
+            </summary>             
+            <returns>
+            Full Framework: number (ie `4.8.1`)
+            .NET Core: FrameworkVersion (ie. `.NET 7.0.7`)
+            </returns>
+        </member>
+        <member name="M:MarkdownMonster.Utilities.WindowsUtils.GetWindowsVersion">
+            <summary>
+            Returns a Windows Version string including build number
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey(System.String,System.String,System.Object@,Microsoft.Win32.RegistryKey)">
+            <summary>
+            Retrieves a registry value into a dynamic value based on path and key.
+            </summary>
+            <param name="path">base key relative path (starts without slash)</param>
+            <param name="key">The keyname to retrieve. Use string.Empty for the default key</param>
+            <param name="value">Out value result as a dynamic value</param>
+            <param name="baseKey">Base key like HKLM, HKCU, HKCR</param>
+            <returns>true or false</returns>
+        </member>
+        <member name="M:MarkdownMonster.Utilities.WindowsUtils.IsUserAnAdmin">
+            <summary>
+            Determine whether the user is an Administrator
+            </summary>
             <returns></returns>
         </member>
         <member name="M:MarkdownMonster.Utilities.JsonToObjectParser.GetOverriddenJsonInstance(System.String)">
@@ -5280,6 +5442,13 @@
             </summary>
             <param name="path">Temporary install path</param>
         </member>
+        <member name="M:MarkdownMonster.AddIns.AddinManager.RaiseOnAfterDocumentLoaded(MarkdownMonster.MarkdownDocument)">
+            <summary>
+            Event fired when the file is loaded from disk
+            </summary>
+            <param name="doc"></param>
+            <returns></returns>
+        </member>
         <member name="M:MarkdownMonster.AddIns.AddinManager.RaiseGetPreviewBrowserControl">
             <summary>
             Checks all addins for a custom Preview Browser control to be used 
@@ -5549,9 +5718,16 @@
         </member>
         <member name="M:MarkdownMonster.AddIns.MarkdownMonsterAddin.OnExecute(System.Object)">
             <summary>
-            Called when the Menu or Toolbar button is clicked
+            Called from the Addin Toolbar and menu items,
+            but it can also be used to manually invoke
+            the addin directly.
             </summary>
-            <param name="sender">Menu item clicked</param>
+            <param name="sender">
+            When invoked from the toolbar/menu passes in the button.
+            
+            When manually invoking Addin Execution you can use this as a parameter to pass to the addin
+            For example, the OpenAI Image Generator uses the sender to pass in the prompt text.        
+            </param>
         </member>
         <member name="M:MarkdownMonster.AddIns.MarkdownMonsterAddin.OnExecuteConfiguration(System.Object)">
             <summary>
@@ -5564,6 +5740,15 @@
             Called to determine whether the menu option should be enabled and execute
             </summary>
             <param name="sender"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.AddIns.MarkdownMonsterAddin.OnAfterDocumenLoaded(MarkdownMonster.MarkdownDocument)">
+            <summary>
+            Called when a document is loaded from disk. This is
+            a low level event that fires for all documents loaded
+            from the document rather than the UI as `OnAfterOpenDocument` does
+            </summary>
+            <param name="doc"></param>
             <returns></returns>
         </member>
         <member name="M:MarkdownMonster.AddIns.MarkdownMonsterAddin.OnBeforeOpenDocument(System.String)">
@@ -5670,6 +5855,18 @@
             <param name="src">The actual href ``referenced in the URL without browser fixup which might be different than the URL
             ie. relative urls or custom monikers</param>
             <returns>true to specify you handled the navigation, false to let the default behavior run</returns>
+        </member>
+        <member name="M:MarkdownMonster.AddIns.MarkdownMonsterAddin.OnContextMenuOpening(System.Windows.Controls.ContextMenu,System.String,System.Object)">
+            <summary>
+            Fired when the editor, tab, folder browser context menus are opened.
+            
+            You can check for the context menu's type to determine which menu you are
+            dealing with and then inject your menu items.
+            </summary>
+            <param name="contextMenu"></param>
+            <param name="contextMenuType">editor,tab,folderbrowser</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:MarkdownMonster.AddIns.MarkdownMonsterAddin.GetMarkdownParser">
             <summary>
@@ -5906,7 +6103,8 @@
         </member>
         <member name="P:MarkdownMonster.ApplicationConfiguration.ApplicationTheme">
             <summary>
-            Dark or Light overall application theme selection for Markdown Monster
+            Dark or Light overall application theme selection for Markdown Monster.
+            Requires an application restart to fully take effect.
             </summary>
         </member>
         <member name="P:MarkdownMonster.ApplicationConfiguration.OpenInPresentationMode">
@@ -5943,33 +6141,9 @@
             Editor Configuration Sub-Settings
             </summary>
         </member>
-        <member name="P:MarkdownMonster.ApplicationConfiguration.PreviewTheme">
-             <summary>
-             Themes used to render the Preview. Preview themes are
-             located in the following folder:
-            
-             \PreviewThemes\XXXX
-            
-             You can create additional Preview Themes by copying an existing
-             theme folder and modifying the CSS and HTML templates as needed.
-             </summary>
-        </member>
-        <member name="P:MarkdownMonster.ApplicationConfiguration.PreviewSyncMode">
+        <member name="P:MarkdownMonster.ApplicationConfiguration.Preview">
             <summary>
-            Preview Sync Mode specifies how the editor and preview pane
-            are kept in sync as you scroll the editor or the preview pane.
-            </summary>
-        </member>
-        <member name="P:MarkdownMonster.ApplicationConfiguration.PreviewMode">
-            <summary>
-            Determines whether the internal or external window previewer are
-            used
-            </summary>
-        </member>
-        <member name="P:MarkdownMonster.ApplicationConfiguration.PreviewHttpLinksExternal">
-            <summary>
-            If set to true causes Http links in the Previewer
-            to be opened in the default system Web Browser
+            Preview Configuration Sub-Settings
             </summary>
         </member>
         <member name="P:MarkdownMonster.ApplicationConfiguration.TitlebarDisplay">
@@ -6329,7 +6503,7 @@
             <param name="closeApplication">It trye forces MM to be shutdown after downloading</param>
             <param name="failTimeout">Max time to for the HTTP check to take before considering failed</param>
             <param name="showNotification">If true shows a notification balloon instead of a dialog</param>
-            <returns></returns>
+            <returns>true if a new version is available</returns>
         </member>
         <member name="M:MarkdownMonster.ApplicationUpdater.GetVersionStringFromVersion(System.Version)">
             <summary>
@@ -6599,10 +6773,27 @@
              If empty, open for all files/folders
              </summary>
         </member>
+        <member name="P:MarkdownMonster.Configuration.ExternalProgramItem.EditorKeyboardShortcut">
+            <summary>
+            An optional keyboard shortcut that can be used to invoke
+            the external command **from the editor**. Only works in 
+            the editor. You should only use this for text editors that
+            are popped up.
+            
+            Leave null or empty for no shortcut.
+            </summary>
+        </member>
         <member name="P:MarkdownMonster.Configuration.ExternalProgramItem.DocumentText">
             <summary>
             Optionally set text of the document (used when copying to clipboard)
             </summary>
+        </member>
+        <member name="M:MarkdownMonster.Configuration.ExternalProgramItem.SaveActiveDocument">
+            <summary>
+            Support function that can be used to save the active document before
+            running the external program
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:MarkdownMonster.Configuration.ExternalProgramItem.CanExecute(System.String)">
             <summary>
@@ -6807,6 +6998,49 @@
             The Markdown Preview Theme used to print to PDF
             </summary>
         </member>
+        <member name="P:MarkdownMonster.Configuration.PreviewConfiguration.PreviewTheme">
+             <summary>
+             Themes used to render the Preview. Preview themes are
+             located in the following folder:
+            
+             \PreviewThemes\XXXX
+            
+             You can create additional Preview Themes by copying an existing
+             theme folder and modifying the CSS and HTML templates as needed.
+             </summary>
+        </member>
+        <member name="P:MarkdownMonster.Configuration.PreviewConfiguration.PreviewSyncMode">
+            <summary>
+            Preview Sync Mode specifies how the editor and preview pane
+            are kept in sync as you scroll the editor or the preview pane.
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.Configuration.PreviewConfiguration.PreviewMode">
+            <summary>
+            Determines whether the internal or external window previewer are
+            used
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.Configuration.PreviewConfiguration.PreviewHttpLinksExternal">
+            <summary>
+            If set to true causes Http links in the Previewer
+            to be opened in the default system Web Browser
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.Configuration.PreviewConfiguration.PreviewBackgroundColorOverride">
+             <summary>
+             Optional background color for the HTML previewer as an HTML color value.
+             (ie: #eee, #535353, white, steelblue etc.)
+             
+             If not set the background is transparent and shows editor's window chrome background
+             for any text that is rendered without a background.
+            
+             This is only pertinent when rendering external HTML that is either not styled or
+             uses a transparent page background.
+            
+             Requires a restart of the editor.
+             </summary>
+        </member>
         <member name="P:MarkdownMonster.Configuration.SystemConfiguration.DisableHardwareAcceleration">
             <summary>
             If set makes the application not use GPU accelleration.
@@ -7007,6 +7241,29 @@
              Note: You have to restart Markdown Monster for this setting to apply
              </summary>
         </member>
+        <member name="P:MarkdownMonster.MarkdownConfiguration.UsePlantUml">
+             <summary>
+             If enabled parses PlantUml and displays it in the previewer
+             https://www.plantuml.com/
+            
+             Examples:
+             https://real-world-plantuml.com/
+             
+             NOTE: You have to restart Markdown Monster for this setting to apply
+             </summary>
+        </member>
+        <member name="P:MarkdownMonster.MarkdownConfiguration.PlantUmlServerUrl">
+             <summary>
+             The URL to use for PlantUml Rendering. Online Server is used by default,
+             but you can point this at your own hosted or local server.
+            
+             For more info see:
+             https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000
+            
+             Default Value: http://www.plantuml.com/plantuml/png/
+             Image Formats: /svg/ /png/ /txt/ /uml/ 
+             y</summary>
+        </member>
         <member name="P:MarkdownMonster.MarkdownConfiguration.Abbreviations">
             <summary>
             Use Abbreviations which are linked to definitions
@@ -7123,6 +7380,12 @@
             utility functions
             </summary>
         </member>
+        <member name="P:MarkdownMonster.mmApp.OpenAiConnection">
+            <summary>
+            Open AI Connection - can be null or check `IsEmpty`.
+            This connection is set from the OpenAiAddinConfiguration
+            </summary>
+        </member>
         <member name="P:MarkdownMonster.mmApp.Configuration">
             <summary>
             Holds a static instance of the application's configuration settings
@@ -7145,6 +7408,11 @@
             Holds a static instance of the Application Model
             </summary>
         </member>
+        <member name="P:MarkdownMonster.mmApp.IsCli">
+            <summary>
+            Determines whether the application is running in non-UI mode
+            </summary>
+        </member>
         <member name="P:MarkdownMonster.mmApp.OpenWindows">
             <summary>
             A static class that holds singleton window references
@@ -7153,6 +7421,16 @@
         <member name="P:MarkdownMonster.mmApp.ApplicationName">
             <summary>
             The full name of the application displayed on toolbar and dialogs
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.mmApp.WebViewRuntimeVersion">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MarkdownMonster.mmApp.WebViewSdkVersion">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:MarkdownMonster.mmApp.EncryptionMachineKey">
@@ -7405,6 +7683,11 @@
             Default encoding that is used when no encoding is provided.
             </summary>
         </member>
+        <member name="P:MarkdownMonster.ApplicationConstants.LongStatusbarTimeout">
+            <summary>
+            Timeout for status messages that should show longer than the defaul
+            </summary>
+        </member>
         <member name="T:MarkdownMonster.BugReport">
             <summary>
             Message class that holds information about a bug report
@@ -7589,8 +7872,8 @@
         </member>
         <member name="P:MarkdownMonster.MarkdownDocument.Filename">
             <summary>
-            Name of the Markdown file. If this is a new file the file is
-            named 'untitled'
+            Full path to the Markdown file.        
+            If it's a new, unsaved file the value is 'untitled'
             </summary>
         </member>
         <member name="P:MarkdownMonster.MarkdownDocument.FilePath">
@@ -7800,6 +8083,7 @@
              <summary>
              Fires after HTML has been generated from Markdown and has been merged
              into the template. At this point HTML contains a full HTML document.
+             This method does not depend on the UI.
             
              You can also set additional HEAD content for the HTML header.
              </summary>
@@ -7814,6 +8098,14 @@
             <returns></returns>
         </member>
         <member name="M:MarkdownMonster.MarkdownDocument.SaveAsync(System.String,System.Boolean,System.Security.SecureString,System.Boolean)">
+            <summary>
+            Saves the CurrentText into the specified filename
+            </summary>
+            <param name="filename">filename to save (optional)</param>
+            <param name="noBackupFileCleanup">if true doesn't delete backup files that might exist</param>
+            <returns>true or false (no exceptions on failure)</returns>
+        </member>
+        <member name="M:MarkdownMonster.MarkdownDocument.SaveAsyncElevated(System.String,System.Boolean,System.Security.SecureString,System.Boolean)">
             <summary>
             Saves the CurrentText into the specified filename
             </summary>
@@ -7997,6 +8289,13 @@
             <param name="markdown">Markdown text that contains FrontMatter</param>
             <returns>Markdown without FrontMatter or original markdown if no FrontMatter</returns>
         </member>
+        <member name="M:MarkdownMonster.MarkdownDocument.GetYamlValueString(System.String)">
+            <summary>
+            Extracts a value from the YAML header
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="T:MarkdownMonster.MarkdownDocumentEditor">
             <summary>
             Wrapper around the Editor WebBrowser Control and the embedded
@@ -8081,13 +8380,27 @@
             Custom Configuration that is local and overrides main behavior
             </summary>
         </member>
+        <member name="M:MarkdownMonster.MarkdownDocumentEditor.ReloadDocument(System.String,System.Nullable{System.Boolean},System.Boolean)">
+             <summary>
+             Reloads the document in the current editor or from a new filename
+            
+             * loads/reloads from disk
+             * explicitly sets markdown text in the editor
+             * navigates/refreshes the preview
+             </summary>
+             <param name="filename">optional file name to re-load</param>
+             <param name="dirtyState">Set dirty state, or null to leave as is</param>
+             <param name="keepUndoBuffer">If true keeps the undo buffer otherwise clears it</param>
+             <returns></returns>
+        </member>
         <member name="M:MarkdownMonster.MarkdownDocumentEditor.LoadDocumentIntoEditor(MarkdownMonster.MarkdownDocument)">
-            <summary>
-            Loads an existing MarkdownDocument into the editor for
-            display/editing.
-            </summary>
-            <param name="mdDoc">An already loaded Markdown Document. If not passed use current document on editor.</param>
-            <param name="forceReload">Force the editor to reload the document</param>
+             <summary>
+             Loads an existing MarkdownDocument into the editor for
+             display/editing.
+            
+             Assumes document and editor have been loaded
+             </summary>
+             <param name="mdDoc">An already loaded Markdown Document. If not passed use current document on editor.</param>        
         </member>
         <member name="M:MarkdownMonster.MarkdownDocumentEditor.WebBrowser_NavigatingAndDroppingFiles(System.Object,System.Windows.Navigation.NavigatingCancelEventArgs)">
              <summary>
@@ -8098,6 +8411,14 @@
              </summary>
              <param name="sender"></param>
              <param name="e"></param>
+        </member>
+        <member name="M:MarkdownMonster.MarkdownDocumentEditor.EmbedDroppedFileAsImage(System.String,System.Boolean)">
+            <summary>
+            Embed a file into the 
+            </summary>
+            <param name="file"></param>
+            <param name="copyNotMove"></param>
+            <returns></returns>
         </member>
         <member name="M:MarkdownMonster.MarkdownDocumentEditor.AttachPreviewBrowser">
             <summary>
@@ -8110,12 +8431,17 @@
             </summary>
         </member>
         <member name="M:MarkdownMonster.MarkdownDocumentEditor.SetMarkdown(System.String,System.Object,System.Boolean,System.Boolean)">
-            <summary>
-            Sets the markdown text into the editor control
-            </summary>
-            <param name="markdown"></param>
-            <param name="updateDirtyFlag"></param>
-            <param name="keepUndoBuffer"></param>
+             <summary>
+             Sets the markdown text into the editor control.
+            
+             IMPORTANT: In some instances when a new Tab is opened especially
+             it may be better to set MarkdownDocument.CurrentText directly,
+             rather than calling this method. Direct assignment sets IsDirty()
+             and delay updates the preview.
+             </summary>
+             <param name="markdown"></param>
+             <param name="updateDirtyFlag"></param>
+             <param name="keepUndoBuffer"></param>
         </member>
         <member name="M:MarkdownMonster.MarkdownDocumentEditor.GetMarkdown">
             <summary>
@@ -8142,6 +8468,14 @@
              is popped up.
              </summary>
              <param name="isEncrypted">Determines if the file is using local encryption</param>
+        </member>
+        <member name="M:MarkdownMonster.MarkdownDocumentEditor.PostSaveProcessing(System.String)">
+            <summary>
+            Custom Save File Handling after the file has been saved
+            - allows post processing of certain configuration and project files
+            </summary>
+            <param name="filename">the filename to save</param>
+            <returns></returns>
         </member>
         <member name="M:MarkdownMonster.MarkdownDocumentEditor.CheckForFileChanges">
              <summary>
@@ -8201,13 +8535,14 @@
             <param name="link">URL, relative path or anchor to embed</param>
             <param name="linkText">Label text for the link</param>
         </member>
-        <member name="M:MarkdownMonster.MarkdownDocumentEditor.ProcessEditorUpdateCommand(System.String)">
+        <member name="M:MarkdownMonster.MarkdownDocumentEditor.ProcessEditorUpdateCommand(System.String,System.String)">
             <summary>
             Takes a command  like bold,italic,href etc., reads the
             text from editor selection, transforms it and pastes
             it back into the document.
             </summary>
             <param name="action"></param>
+            <param name="html">Optional - performs action on the text/html passed in. If null (default) clipboard is used.</param>
         </member>
         <member name="M:MarkdownMonster.MarkdownDocumentEditor.EditorSelectionOperation(System.String,System.String)">
             <summary>
@@ -8470,7 +8805,7 @@
              </summary>
              <param name="url">URL value</param>
              <param name="src">Full URL captured by browser and translated. Can be null.</param>
-             <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
+             <returns>true if the navigation is handled, false to continue letting app handle navigation, null to abort</returns>
         </member>
         <member name="M:MarkdownMonster.MarkdownDocumentEditor.SpellCheckDocument">
             <summary>
@@ -8737,21 +9072,6 @@
             <param name="markdown"></param>
             <returns></returns>
         </member>
-        <member name="M:MarkdownMonster.MarkdownParserBase.StripFrontMatter(System.String)">
-            <summary>
-            Strips 
-            </summary>
-            <param name="markdown"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.MarkdownParserBase.ParseFontAwesomeIcons(System.String)">
-            <summary>
-            Post processing routine that post-processes the HTML and 
-            replaces @icon- with fontawesome icons
-            </summary>
-            <param name="html"></param>
-            <returns></returns>
-        </member>
         <member name="M:MarkdownMonster.MarkdownParserBase.ParseExternalLinks(System.String)">
             <summary>
             Replaces all links with target="top" links
@@ -8978,7 +9298,7 @@
         </member>
         <member name="P:MarkdownMonster.HtmlToPdfGeneration.ExecutionPath">
             <summary>
-             The path to the wkpdftohtml executable (optional)
+             The path to the wkpdf2html executable (optional)
             </summary>
         </member>
         <member name="P:MarkdownMonster.HtmlToPdfGeneration.PageSize">
@@ -9155,6 +9475,15 @@
             <param name="text">If link text is passed it's used instead of selection</param>
             <returns></returns>
         </member>
+        <member name="M:MarkdownMonster.MarkdownUtilities.JoinParagraphs(System.String)">
+            <summary>
+            Joins paragraphs that have been broken to a fixed width with \n or \r\n
+            and puts htem back into paragraphs. only double line breaks are considered
+            all else are combined.
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
         <member name="T:MarkdownMonster.mmFileUtils">
             <summary>
             Internal File Utilities class
@@ -9235,6 +9564,17 @@
             <param name="fileSize">File size</param>
             <returns>string of file size</returns>
         </member>
+        <member name="M:MarkdownMonster.mmFileUtils.UrlEncodeSimple(System.String,System.Boolean)">
+             <summary>
+             A simplified version of UrlEncode that only codes certain
+             problematic characters: %&amp;&amp;&#63;# and space.
+            
+             If encodeSlashes is set standard .NET UrlEncode is used.
+             </summary>
+             <param name="url"></param>
+             <param name="encodeSlashes"></param>
+             <returns></returns>
+        </member>
         <member name="M:MarkdownMonster.mmFileUtils.ReadAllTextAsync(System.String,System.Text.Encoding)">
             <summary>
             Asynchronously reads files. Use only with NetFx
@@ -9281,6 +9621,13 @@
             Returns a list of encoding display names for use in
             lists.
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MarkdownMonster.mmFileUtils.BreakIntoWords(System.String)">
+            <summary>
+            Tries to figure a single word string and turn it into text
+            </summary>
+            <param name="text"></param>
             <returns></returns>
         </member>
         <member name="M:MarkdownMonster.mmFileUtils.TryConvertToInt32(System.Double,System.Int32)">
@@ -9373,6 +9720,24 @@
             <param name="extraExtensions">Any additional file extensions as lower case extension without the .</param>
             <returns>true or false</returns>
         </member>
+        <member name="M:MarkdownMonster.mmFileUtils.ExecuteProcessAsync(System.String,System.String,System.Int32,System.Text.StringBuilder,System.Threading.CancellationToken,System.Action{System.Diagnostics.Process},System.Diagnostics.ProcessWindowStyle)">
+             <summary>
+             Executes a Windows process with given command line parameters
+             and captures console output into a string.
+            
+             Writes original output into the application Console which you can
+             optionally redirect to capture output from the command line
+             operation using `Console.SetOut` or `Console.SetError`.
+             </summary>
+             <param name="executable">Executable to run</param>
+             <param name="arguments"></param>
+             <param name="timeoutMs">Timeout of the process in milliseconds. Pass -1 to wait forever. Pass 0 to not wait.</param>
+             <param name="output">StringBuilder that will receive StdOut and StdError output</param>
+             <param name="writeDelegate">Action to capture stdout and stderror output for you to handle</param>
+             <param name="windowStyle"></param>
+             <param name="completionDelegate">If waiting for completion you can be notified when the exection is complete</param>
+             <returns>process exit code or 0 if run and forget. 1460 for time out. -1 on error</returns>
+        </member>
         <member name="M:MarkdownMonster.mmFileUtils.OpenGitClient(System.String)">
             <summary>
             Opens the configured Git Client in the specified folder
@@ -9384,12 +9749,6 @@
             Checks to see if
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:MarkdownMonster.mmFileUtils.EnsureBrowserEmulationEnabled(System.String,System.Boolean)">
-            <summary>
-            Set Internet Explorer browser compatibility
-            </summary>
-            <param name="exename"></param>
         </member>
         <member name="M:MarkdownMonster.mmFileUtils.EnableWindowsLongPaths(System.Boolean)">
              <summary>
@@ -9471,6 +9830,15 @@
             </summary>
             <param name="text"></param>
             <param name="connectTimeout"></param>
+        </member>
+        <member name="T:MarkdownMonster.Services.WebServer">
+             <summary>
+             Extremely simple Web Server that allows message based request handling
+            
+             Used for automating some Markdown Monster Tasks from Web sites
+             or other applications via simple HTTP requests over non-https
+             requests.
+             </summary>
         </member>
         <member name="P:MarkdownMonster.Services.WebServer.ConnectionTimeout">
             <summary>
@@ -9602,6 +9970,17 @@
             The requests content type. Typically will be JSON object unless no
             data is returned.
             </summary>
+        </member>
+        <member name="T:Westwind.AspNetCore.Markdown.FontAwesomeRenderExtension">
+             <summary>
+             Render Extension that extends markdown rendering via `@icon-` sytnax
+             with a name of a font-awsome icon. 
+            
+             * @icon-home  - renders `fas fa-home`
+             * @icon-regular-home - renders `far fa-home`
+             * @icon-duotone-home - renders `fad fa-home`
+             * @icon-solid-home - renders `fas fa-home`
+             </summary>
         </member>
         <member name="T:HtmlSearchValue">
             <summary>

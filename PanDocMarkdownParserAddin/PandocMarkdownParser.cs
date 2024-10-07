@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using MarkdownMonster;
 using Westwind.Utilities;
 
@@ -72,9 +68,6 @@ namespace PanDocMarkdownParserAddin
 
             File.Delete(tfileIn);
             File.Delete(tfileOut);
-
-
-            html = ParseFontAwesomeIcons(html);
 
             if (mmApp.Configuration.Markdown.RenderLinksAsExternal)
                 html = ParseExternalLinks(html);
