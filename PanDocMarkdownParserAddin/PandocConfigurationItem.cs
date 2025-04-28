@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MarkdownMonster;
+using MarkdownMonster.Utilities;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -110,6 +112,20 @@ namespace PanDocMarkdownParserAddin
         private bool _promptForInputFilename;
 
 
+        /// <summary>
+        /// If set to true the command line is copied to the clipboard
+        /// </summary>
+        public bool CopyCommandLineToClipboard
+        {
+            get => _copyCommandLineToClipboard;
+            set
+            {
+                if (value == _copyCommandLineToClipboard) return;
+                _copyCommandLineToClipboard = value;
+                OnPropertyChanged(nameof(CopyCommandLineToClipboard));
+            }
+        }
+        private bool _copyCommandLineToClipboard;
 
         public (bool,string) Execute(string markdown, string outputFile, string inputFile, string basePath, bool deleteInputFile = false)
         {
@@ -138,9 +154,8 @@ namespace PanDocMarkdownParserAddin
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 WorkingDirectory = basePath
-            };
-
-            
+            };            
+                        
             var process = Process.Start(pi);
 
             string console = process.StandardOutput.ReadToEnd()
@@ -153,7 +168,11 @@ namespace PanDocMarkdownParserAddin
 
             console = process.StandardOutput.ReadToEnd();
 
-            
+            if (CopyCommandLineToClipboard)
+            {
+                ClipboardHelper.SetText("pandoc " + cmdLine);
+            }
+
             if (deleteInputFile)
                 File.Delete(inputFile);
 

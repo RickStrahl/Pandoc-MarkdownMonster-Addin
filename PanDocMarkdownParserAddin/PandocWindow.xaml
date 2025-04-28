@@ -75,7 +75,8 @@
 
                 </ToolBar>
                 <ToolBar>
-                    <Button Name="ToolButtonRunSnippet" Click="ToolButtonRunConfiguration_Click">
+                    <Button Name="ToolButtonRunSnippet" 
+                            Click="ToolButtonRunConfiguration_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa6:FontAwesome Icon="Solid_Play"  
                                                      Foreground="Green"
@@ -85,7 +86,8 @@
                             <TextBlock>Run Configuration</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Name="ToolButtonPandocFormats" Click="ToolButtonPandocFormats_Click">
+                    <Button Name="ToolButtonPandocFormats" 
+                            Click="ToolButtonPandocFormats_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa6:FontAwesome Icon="Solid_CircleInfo" 
                                              Foreground="SteelBlue"
@@ -142,7 +144,8 @@
 
                 <CheckBox IsChecked="{Binding ActiveConfiguration.PromptForOutputFilename}" Margin="0,15,0,0">prompt for output file name</CheckBox>
                 <CheckBox IsChecked="{Binding ActiveConfiguration.PromptForInputFilename}" Margin="0,10,0,0">prompt for input file name</CheckBox>
-
+                <CheckBox IsChecked="{Binding ActiveConfiguration.CopyCommandLineToClipboard}" Margin="0,10,0,0">copy Command Line to Clipboard after run</CheckBox>
+                
             </StackPanel>
 
 
@@ -187,7 +190,7 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
-                <fa6:ImageAwesome Name="StatusIcon" PrimaryColor="ForestGreen" Height="15" />
+                <fa6:ImageAwesome Name="StatusIcon"  Icon="Solid_Circle" PrimaryColor="ForestGreen" Height="13" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="1">
                 <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>

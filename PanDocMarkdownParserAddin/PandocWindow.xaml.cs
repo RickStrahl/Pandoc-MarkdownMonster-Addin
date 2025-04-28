@@ -25,6 +25,8 @@ namespace PanDocMarkdownParserAddin
     {
         public  PandocAddinModel  Model { get; set; }
 
+        public StatusBarHelper Status { get; }
+
         public PandocMarkdownParserWindow(PanDocMarkdownParserAddin addin)
         {
             InitializeComponent();
@@ -48,6 +50,8 @@ namespace PanDocMarkdownParserAddin
 
             Loaded += PandocMarkdownParserWindow_Loaded;
             Unloaded += CommanderWindow_Unloaded;
+
+            Status = new StatusBarHelper(StatusText, StatusIcon);
 
             DataContext = Model;
         }
@@ -129,9 +133,10 @@ namespace PanDocMarkdownParserAddin
         }
 
 
-        private void ToolButtonRunConfiguration_Click(object sender, RoutedEventArgs e)
+        private async void ToolButtonRunConfiguration_Click(object sender, RoutedEventArgs e)
         {
-            RunConfiguration().FireAndForget();
+            e.Handled = true; 
+            await RunConfiguration();            
         }
 
         private void ToolButtonPandocFormats_Click(object sender, RoutedEventArgs e)
@@ -155,7 +160,7 @@ namespace PanDocMarkdownParserAddin
             var path = Path.GetDirectoryName(docFile);
             TextConsole.Text = "";
 
-            
+
 
             string inputFile;
             if (item.PromptForInputFilename)
@@ -184,17 +189,17 @@ namespace PanDocMarkdownParserAddin
                 {
                     string html = Model.Addin.Model.ActiveDocument.RenderHtml();
                     inputFile = Model.Addin.Model.ActiveDocument.HtmlRenderFilename;
-                    File.WriteAllText(inputFile, html,new UTF8Encoding(false) /* pandoc doesn't like the BOM */);
+                    File.WriteAllText(inputFile, html, new UTF8Encoding(false) /* pandoc doesn't like the BOM */);
                 }
                 else
                 {
                     inputFile = Path.ChangeExtension(docFile, ".md");
-                    File.WriteAllText(inputFile, markdown, new UTF8Encoding(false) /* pandoc doesn't like the BOM */);                    
+                    File.WriteAllText(inputFile, markdown, new UTF8Encoding(false) /* pandoc doesn't like the BOM */);
                 }
             }
 
-            
-            
+
+
             if (item.PromptForOutputFilename)
             {
                 string filename = Path.GetFileName(Path.ChangeExtension(inputFile, item.OutputExtension ?? ".pdf"));
@@ -216,25 +221,24 @@ namespace PanDocMarkdownParserAddin
 
                 try
                 {
-                    ShowStatus("Document creation in progress...");
+                    Status.ShowStatusProgress("Document creation in progress...");
                     TextConsole.Text = null;
 
-                    (bool success,string consoleText) = item.Execute(markdown, sd.FileName, inputFile, path, generateHtml);
+                    (bool success, string consoleText) = item.Execute(markdown, sd.FileName, inputFile, path, generateHtml);
                     TextConsole.Text = consoleText;
 
                     if (success)
-                        ShellUtils.GoUrl(sd.FileName);  
+                        ShellUtils.GoUrl(sd.FileName);
 
-                    ShowStatus("Output was generated.", 6000);
+                    Status.ShowStatusSuccess("Output was generated.");
                 }
                 catch (Exception ex)
-                {
+                {                    
                     TextConsole.Text = ex.Message;
-                    ShowStatus("Error executing Pandoc configuration.", 8000);
-                    SetStatusIcon(EFontAwesomeIcon.Solid_TriangleExclamation, Colors.Gold);
+                    Status.ShowStatusError("Error executing Pandoc configuration.");                    
                 }
-
             }
+
         }
 
 
@@ -250,57 +254,6 @@ namespace PanDocMarkdownParserAddin
         }
 
 
-        #region StatusBar
 
-        public void ShowStatus(string message = null, int milliSeconds = 0)
-        {
-            if (message == null)
-                message = "Ready";
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                Dispatcher.Delay(milliSeconds,
-                    (win) =>
-                    {
-                        var window = win as PandocMarkdownParserWindow;
-                        if (window == null)
-                            return;
-
-                        window.ShowStatus(null, 0);                        
-                    }, this);
-            }
-
-            WindowUtilities.DoEvents();
-        }
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(EFontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 30;
-            StatusIcon.Spin = spin;
-        }
-
-        /// <summary>
-        /// Resets the Status bar icon on the left to its default green circle
-        /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = EFontAwesomeIcon.Solid_Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.ForestGreen);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
-        #endregion
     }
 }
