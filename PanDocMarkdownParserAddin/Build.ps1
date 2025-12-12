@@ -4,7 +4,7 @@
 cd "$PSScriptRoot" 
 
 $src = "."
-$dlls = "$env:appdata\Markdown Monster\Addins\PanDocMarkdownParser"
+$dlls = "$env:UserProfile\DropBox\Markdown Monster\Addins\PanDocMarkdownParser"
 $tgt = "..\Build"
 $dist = "..\Build\Distribution"
 
