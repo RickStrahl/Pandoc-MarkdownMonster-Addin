@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>0.6.2</Version>
+		<Version>0.7.2</Version>
 		<TargetFramework>net10.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 
@@ -10,7 +10,7 @@
 		<Product>Markdown Monster</Product>
 		<Authors>Rick Strahl, West Wind Technologies</Authors>
 		<Company>West Wind Technologies</Company>
-		<Copyright>West Wind Technologies, 2016-2025</Copyright>
+		<Copyright>West Wind Technologies, 2016-2026</Copyright>
 		<Description>Markdown Monster PanDoc Markdown Parsing and Pandoc Export Support Addin.</Description>
 		
 		<OutputPath>$(UserProfile)\Dropbox\Markdown Monster\Addins\PandocMarkdownParser</OutputPath>
@@ -41,9 +41,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MahApps.Metro" Version="2.4.11" />
-		<PackageReference Include="Westwind.Utilities" Version="5.2.0" />
-		<PackageReference Include="FontAwesome6.Pro.Fonts" Version="2.5.1" />
+		<PackageReference Include="MahApps.Metro" Version="2.4.11" />	
+		<PackageReference Include="FontAwesome6.Pro.Fonts" Version="2.5.1" />	
+		<PackageReference Include="Westwind.Utilities" Version="5.2.8.1" />
 	</ItemGroup>
 
 

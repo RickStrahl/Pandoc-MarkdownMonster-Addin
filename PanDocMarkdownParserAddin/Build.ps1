@@ -1,6 +1,10 @@
 # Build script that creates the \Build folder final output
 # that can be shared on GitHub and the public Markdown Monster Addins Repo
 
+# Fix progress overlays mucking up the console
+#$ProgressPreference = 'SilentlyContinue'
+
+
 cd "$PSScriptRoot" 
 
 $src = "."

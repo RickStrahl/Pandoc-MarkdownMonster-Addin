@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using FontAwesome6;
-using FontAwesome6.Shared.Extensions;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
@@ -167,7 +164,7 @@ namespace PanDocMarkdownParserAddin
             {
                 var of = new OpenFileDialog
                 {
-                    Filter = "Markdown Files (*.md, .markdown)|*.md;*.markdown|Html Files(*.htm,html)|*.html;*.htm|Word Docx Files (*.docx)|*.docx|epub files (*.epub)|*.epub|Open Office ODT Files (*.odt)|*.odt|Open Document XML (*.xml)|*.xml|All Files (*.*)|*.*",
+                    Filter = "Markdown Files (*.md, .markdown)|*.md;*.markdown|Html Files(*.htm,html)|*.html;*.htm|Word Docx Files (*.docx)|*.docx|Rich Text Format (*.rtf)|*.rtf|epub files (*.epub)|*.epub|Open Office ODT Files (*.odt)|*.odt|Open Document XML (*.xml)|*.xml|All Files (*.*)|*.*",
                     FilterIndex = 1,
                     Title = "Open input file for Pandoc Conversion",
                     FileName = null,
@@ -205,7 +202,7 @@ namespace PanDocMarkdownParserAddin
                 string filename = Path.GetFileName(Path.ChangeExtension(inputFile, item.OutputExtension ?? ".pdf"));
                 var sd = new SaveFileDialog
                 {
-                    Filter = "PDF Files (*.pdf)|*.pdf|Word Docx Files (*.docx)|*.docx|Html Files(*.htm,html)|*.html;*.htm|epub files (*.epub)|*.epub|Open Office ODT Files (*.odt)|*.odt|Open Document XML (*.xml)|*.xml|All Files (*.*)|*.*",
+                    Filter = "PDF Files (*.pdf)|*.pdf|Word Docx Files (*.docx)|*.docx|Rich Text Format (*.rtf)|*.rtf|Html Files(*.htm,html)|*.html;*.htm|epub files (*.epub)|*.epub|Open Office ODT Files (*.odt)|*.odt|Open Document XML (*.xml)|*.xml|All Files (*.*)|*.*",
                     FilterIndex = 1,
                     FileName = filename,
                     Title = "Specify output file Pandoc Conversion",
