@@ -182,16 +182,26 @@ namespace PanDocMarkdownParserAddin
             }
             else
             {
-                if (generateHtml)
+                try
                 {
-                    string html = Model.Addin.Model.ActiveDocument.RenderHtml();
-                    inputFile = Model.Addin.Model.ActiveDocument.HtmlRenderFilename;
-                    File.WriteAllText(inputFile, html, new UTF8Encoding(false) /* pandoc doesn't like the BOM */);
+                    if (generateHtml)
+                    {
+                        string html = Model.Addin.Model.ActiveDocument.RenderHtml();
+                        inputFile = Model.Addin.Model.ActiveDocument.HtmlRenderFilename;
+                        File.WriteAllText(inputFile, html, mmFileUtils.Utf8EncodingWithoutBom /* pandoc doesn't like the BOM */);
+                    }
+                    else
+                    {
+                        inputFile = Path.ChangeExtension(docFile, ".md");
+                        File.WriteAllText(inputFile, markdown, mmFileUtils.Utf8EncodingWithoutBom /* pandoc doesn't like the BOM */);
+                    }
                 }
-                else
+                catch(Exception ex)
                 {
-                    inputFile = Path.ChangeExtension(docFile, ".md");
-                    File.WriteAllText(inputFile, markdown, new UTF8Encoding(false) /* pandoc doesn't like the BOM */);
+                    TextConsole.Text = "Error: " + ex.Message;
+                    WindowsNotifications.ShowInAppNotifications("Pandoc Conversion Error", "Error creating input file for Pandoc conversion:\n" + ex.Message,
+                                                                icon: WindowsNotifications.NotificationInAppTypes.Error, window: mmApp.Window);                    
+                    return;
                 }
             }
 
@@ -232,7 +242,9 @@ namespace PanDocMarkdownParserAddin
                 catch (Exception ex)
                 {                    
                     TextConsole.Text = ex.Message;
-                    Status.ShowStatusError("Error executing Pandoc configuration.");                    
+                    Status.ShowStatusError("Error executing Pandoc configuration.");
+                    WindowsNotifications.ShowInAppNotifications("Pandoc Conversion Error", "Error executing Pandoc configuration: \n" + ex.Message,
+                        icon: WindowsNotifications.NotificationInAppTypes.Error, window: mmApp.Window);
                 }
             }
 
